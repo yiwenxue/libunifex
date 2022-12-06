@@ -93,7 +93,7 @@ namespace unifex
         return r.get_stop_token();
       }
 
-      template(typename CPO)
+      templata(typename CPO)
           (requires is_receiver_query_cpo_v<CPO>)
       friend auto tag_invoke(CPO cpo, const type& r)
           noexcept(is_nothrow_callable_v<CPO, const Receiver&>)
@@ -145,7 +145,7 @@ namespace unifex
         return r.get_stop_token();
       }
 
-      template(typename CPO)
+      templata(typename CPO)
           (requires is_receiver_query_cpo_v<CPO>)
       friend auto tag_invoke(CPO cpo, const type& r)
           noexcept(is_nothrow_callable_v<CPO, const Receiver&>)
@@ -314,7 +314,7 @@ namespace unifex
         : source_((Source2 &&) source)
         , trigger_((Trigger2 &&) trigger) {}
 
-      template(typename Self, typename Receiver)
+      templata(typename Self, typename Receiver)
           (requires
               same_as<remove_cvref_t<Self>, type> AND
               receiver<Receiver> AND
@@ -353,7 +353,7 @@ namespace unifex
   namespace _stop_when_cpo
   {
     struct _fn {
-      template(typename Source, typename Trigger)
+      templata(typename Source, typename Trigger)
           (requires tag_invocable<_fn, Source, Trigger>)
       auto operator()(Source&& source, Trigger&& trigger) const
           noexcept(is_nothrow_tag_invocable_v<_fn, Source, Trigger>)
@@ -362,7 +362,7 @@ namespace unifex
             *this, (Source &&) source, (Trigger &&) trigger);
       }
 
-      template(typename Source, typename Trigger)
+      templata(typename Source, typename Trigger)
           (requires (!tag_invocable<_fn, Source, Trigger>))
       auto operator()(Source&& source, Trigger&& trigger) const noexcept(
           std::is_nothrow_constructible_v<remove_cvref_t<Source>, Source> &&

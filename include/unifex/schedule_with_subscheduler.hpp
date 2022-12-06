@@ -62,14 +62,14 @@ namespace _subschedule {
         meta_tag_invoke_result<_fn>,
         meta_quote1<_default_result_t>>::template apply<Scheduler>;
   public:
-    template(typename Scheduler)
+    templata(typename Scheduler)
       (requires tag_invocable<_fn, Scheduler>)
     auto operator()(Scheduler&& sched) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Scheduler>)
         -> _result_t<Scheduler> {
       return unifex::tag_invoke(_fn{}, (Scheduler &&) sched);
     }
-    template(typename Scheduler)
+    templata(typename Scheduler)
       (requires (!tag_invocable<_fn, Scheduler>))
     auto operator()(Scheduler&& sched) const
         -> _result_t<Scheduler> {

@@ -61,7 +61,7 @@ struct _op<Receiver>::type {
           template callback_type<cancel_callback>>
     stopCallback_;
 
-  template(typename Receiver2)
+  templata(typename Receiver2)
     (requires constructible_from<Receiver, Receiver2>)
   type(Receiver2&& receiver)
     : receiver_((Receiver2 &&) receiver) {}

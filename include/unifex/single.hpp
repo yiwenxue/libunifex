@@ -45,7 +45,7 @@ struct _next_op<Sender, Receiver>::type {
   };
   bool done_;
 
-  template(typename Receiver2)
+  templata(typename Receiver2)
     (requires constructible_from<Receiver, Receiver2>)
   explicit type(Receiver2&& receiver)
     : receiver_((Receiver2&&)receiver)

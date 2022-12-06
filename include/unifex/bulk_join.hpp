@@ -39,7 +39,7 @@ using join_receiver = typename _join_receiver<Receiver>::type;
 template<typename Receiver>
 class _join_receiver<Receiver>::type {
 public:
-    template(typename Receiver2)
+    templata(typename Receiver2)
       (requires constructible_from<Receiver, Receiver2>)
     explicit type(Receiver2&& r) noexcept(std::is_nothrow_constructible_v<Receiver, Receiver2>)
     : receiver_((Receiver2&&)r)
@@ -47,13 +47,13 @@ public:
 
     void set_next() & noexcept {}
 
-    template(typename... Values)
+    templata(typename... Values)
         (requires receiver_of<Receiver, Values...>)
     void set_value(Values&&... values) noexcept(is_nothrow_receiver_of_v<Receiver, Values...>) {
         unifex::set_value(std::move(receiver_), (Values&&)values...);
     }
 
-    template(typename Error)
+    templata(typename Error)
         (requires receiver<Receiver, Error>)
     void set_error(Error&& error) noexcept {
         unifex::set_error(std::move(receiver_), (Error&&)error);
@@ -68,7 +68,7 @@ public:
         return {};
     }
 
-    template(typename CPO, typename Self)
+    templata(typename CPO, typename Self)
         (requires
             is_receiver_query_cpo_v<CPO> AND
             same_as<Self, type>)
@@ -107,7 +107,7 @@ public:
     : source_((Source2&&)s)
     {}
 
-    template(typename Self, typename Receiver)
+    templata(typename Self, typename Receiver)
         (requires
             same_as<remove_cvref_t<Self>, type> AND
             sender_to<member_t<Self, Source>, join_receiver<remove_cvref_t<Receiver>>>)
@@ -127,7 +127,7 @@ private:
 };
 
 struct _fn {
-    template(typename Source)
+    templata(typename Source)
         (requires
             typed_bulk_sender<Source> &&
             tag_invocable<_fn, Source>)
@@ -137,7 +137,7 @@ struct _fn {
         return tag_invoke(_fn{}, (Source&&)source);
     }
 
-    template(typename Source)
+    templata(typename Source)
         (requires
             typed_bulk_sender<Source> &&
             (!tag_invocable<_fn, Source>))

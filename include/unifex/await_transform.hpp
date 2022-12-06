@@ -94,7 +94,7 @@ struct _awaitable_base<Promise, Value>::type {
     , continuation_(std::exchange(r.continuation_, nullptr))
     {}
 
-    template(class... Us)
+    templata(class... Us)
       (requires (constructible_from<Value, Us...> ||
           (std::is_void_v<Value> && sizeof...(Us) == 0)))
     void set_value(Us&&... us) &&
@@ -116,7 +116,7 @@ struct _awaitable_base<Promise, Value>::type {
       continuation_.promise().unhandled_done().resume();
     }
 
-    template(typename CPO)
+    templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO> AND is_callable_v<CPO, const Promise&>)
     friend auto tag_invoke(CPO cpo, const _rec& r)
         noexcept(is_nothrow_callable_v<CPO, const Promise&>)
@@ -185,7 +185,7 @@ using _as_awaitable = typename _awaitable<Promise, Sender>::type;
 
 inline const struct _fn {
   // Call custom implementation if present.
-  template(typename Promise, typename Value)
+  templata(typename Promise, typename Value)
     (requires tag_invocable<_fn, Promise&, Value>)
   auto operator()(Promise& promise, Value&& value) const
     noexcept(is_nothrow_tag_invocable_v<_fn, Promise&, Value>)
@@ -194,7 +194,7 @@ inline const struct _fn {
   }
 
   // Default implementation.
-  template(typename Promise, typename Value)
+  templata(typename Promise, typename Value)
     (requires (!tag_invocable<_fn, Promise&, Value>))
   decltype(auto) operator()(Promise& promise, Value&& value) const {
     // Note we don't fold the two '(Value&&) value'-returning cases here

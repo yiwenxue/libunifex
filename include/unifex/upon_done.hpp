@@ -43,13 +43,13 @@ struct _receiver<Receiver, Func>::type {
   UNIFEX_NO_UNIQUE_ADDRESS Func func_;
   UNIFEX_NO_UNIQUE_ADDRESS Receiver receiver_;
 
-  template(typename... Values)
+  templata(typename... Values)
     (requires receiver_of< Receiver, Values...>) 
   void set_value(Values&&... values) && {
     unifex::set_value((Receiver &&)(receiver_), (Values &&)(values)...);
   }
 
-  template(typename Error)
+  templata(typename Error)
     (requires receiver<Receiver, Error>) 
   void set_error(Error&& error) && noexcept {
     unifex::set_error((Receiver &&)(receiver_), (Error &&)(error));
@@ -86,7 +86,7 @@ struct _receiver<Receiver, Func>::type {
     }
   }
 
-  template(typename CPO)
+  templata(typename CPO)
     (requires is_receiver_query_cpo_v<CPO>) 
   friend auto tag_invoke( CPO cpo, const type& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>) 
@@ -168,7 +168,7 @@ public:
     return blocking(sender.pred_);
   }
 
-  template(typename Sender, typename Receiver)
+  templata(typename Sender, typename Receiver)
     (requires same_as<remove_cvref_t<Sender>, type> AND receiver<Receiver> AND 
      sender_to<member_t<Sender, Predecessor>, receiver_t<remove_cvref_t<Receiver>>>) 
     friend auto tag_invoke( tag_t<unifex::connect>, Sender&& s, Receiver&& r) 
@@ -195,7 +195,7 @@ private:
       meta_quote2<_upon_done::sender>>::template apply<Sender, Func>;
 
 public:
-  template(typename Sender, typename Func)
+  templata(typename Sender, typename Func)
     (requires invocable<Func> AND tag_invocable<_fn, Sender, Func>) 
   auto operator()(Sender&& predecessor, Func&& func) const
       noexcept(is_nothrow_tag_invocable_v<_fn, Sender, Func>)
@@ -203,7 +203,7 @@ public:
     return unifex::tag_invoke(_fn{}, (Sender &&)(predecessor), (Func &&)(func));
   }
 
-  template(typename Sender, typename Func)
+  templata(typename Sender, typename Func)
     (requires(!tag_invocable<_fn, Sender, Func>) AND invocable<Func>)
   auto operator()(Sender&& predecessor, Func&& func) const
       noexcept(std::is_nothrow_constructible_v<
@@ -212,7 +212,7 @@ public:
     return _upon_done::sender<Sender, Func>{
         (Sender &&)(predecessor), (Func &&)(func)};
   }
-  template(typename Func)
+  templata(typename Func)
     (requires invocable<Func>) 
   constexpr auto operator()(Func&& func) const
       noexcept(is_nothrow_callable_v<tag_t<bind_back>, _fn, Func>)

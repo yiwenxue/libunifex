@@ -31,7 +31,7 @@ namespace unifex
     inline namespace _gwo_cpo_ns
     {
       struct _get_wrapped_object_cpo {
-        template(typename T)                                      //
+        templata(typename T)                                      //
             (requires tag_invocable<_get_wrapped_object_cpo, T>)  //
             auto
             operator()(T&& wrapper) const

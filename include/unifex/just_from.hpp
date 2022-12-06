@@ -25,7 +25,7 @@ namespace unifex
 {
   namespace _just_from {
     inline const struct _fn {
-      template (typename Callable)
+      templata(typename Callable)
         (requires callable<Callable>)
       constexpr auto operator()(Callable&& callable) const {
         return then(just(), (Callable&&) callable);

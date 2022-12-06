@@ -104,7 +104,7 @@ namespace unifex
         CPOs...>;
 
   public:
-    template(typename T)                                        //
+    templata(typename T)                                        //
         (requires(!same_as<remove_cvref_t<T>, type>) AND        //
          (!_is_any_object_tag_argument<remove_cvref_t<T>>) AND  //
              constructible_from<remove_cvref_t<T>, T> AND                  //
@@ -116,7 +116,7 @@ namespace unifex
                 std::is_nothrow_constructible_v<remove_cvref_t<T>, T>)
       : type(std::in_place_type<remove_cvref_t<T>>, static_cast<T&&>(object)) {}
 
-    template(typename T, typename Allocator)                   //
+    templata(typename T, typename Allocator)                   //
         (requires _any_object::can_be_type_erased_v<remove_cvref_t<T>> AND  //
              constructible_from<remove_cvref_t<T>, T>)         //
         explicit type(
@@ -132,7 +132,7 @@ namespace unifex
             std::in_place_type<remove_cvref_t<T>>,
             static_cast<T&&>(value)) {}
 
-    template(typename T, typename... Args)     //
+    templata(typename T, typename... Args)     //
         (requires constructible_from<T, Args...> AND
                   _any_object::can_be_stored_inplace_v<T>)  //
         explicit type(std::in_place_type_t<T>, Args&&... args) noexcept(
@@ -141,7 +141,7 @@ namespace unifex
       ::new (static_cast<void*>(&storage_)) T(static_cast<Args&&>(args)...);
     }
 
-    template(typename T, typename... Args)               //
+    templata(typename T, typename... Args)               //
         (requires constructible_from<T, Args...> AND     //
              _any_object::can_be_type_erased_v<T> AND    //
          (!_any_object::can_be_stored_inplace_v<T>) AND  //
@@ -153,7 +153,7 @@ namespace unifex
             std::in_place_type<T>,
             static_cast<Args&&>(args)...) {}
 
-    template(typename T, typename Allocator, typename... Args)  //
+    templata(typename T, typename Allocator, typename... Args)  //
         (requires _any_object::can_be_type_erased_v<T> AND                   //
              _any_object::can_be_stored_inplace_v<T>)                        //
         explicit type(
@@ -164,7 +164,7 @@ namespace unifex
                                          is_nothrow_constructible_v<T, Args...>)
       : type(std::in_place_type<T>, static_cast<Args&&>(args)...) {}
 
-    template(typename T, typename Alloc, typename... Args)  //
+    templata(typename T, typename Alloc, typename... Args)  //
         (requires _any_object::can_be_type_erased_v<T> AND  //
          (!_any_object::can_be_stored_inplace_v<T>))        //
         explicit type(
@@ -243,7 +243,7 @@ namespace unifex
       return *this;
     }
 
-    template(typename T)                                      //
+    templata(typename T)                                      //
         (requires _any_object::can_be_type_erased_v<T> AND                 //
              constructible_from<remove_cvref_t<T>, T> AND     //
                  _any_object::can_be_stored_inplace_v<remove_cvref_t<T>>)  //
@@ -266,7 +266,7 @@ namespace unifex
       return *this;
     }
 
-    template(typename T)                                      //
+    templata(typename T)                                      //
         (requires _any_object::can_be_type_erased_v<T> AND                 //
              constructible_from<remove_cvref_t<T>, T> AND     //
                  default_constructible<DefaultAllocator> AND  //

@@ -25,7 +25,7 @@
 namespace unifex {
 namespace _on_stream {
   inline const struct _fn {
-    template (typename StreamSender, typename Scheduler)
+    templata(typename StreamSender, typename Scheduler)
       (requires scheduler<Scheduler>)
     auto operator()(Scheduler&& scheduler, StreamSender&& stream) const {
       return adapt_stream(
@@ -34,7 +34,7 @@ namespace _on_stream {
             return on(s, (decltype(sender)) sender);
           });
     }
-    template (typename StreamSender, typename Scheduler)
+    templata(typename StreamSender, typename Scheduler)
       (requires scheduler<Scheduler>)
     auto operator()(StreamSender&& stream, Scheduler&& scheduler) const {
       return adapt_stream(
@@ -43,7 +43,7 @@ namespace _on_stream {
             return on(s, (decltype(sender)) sender);
           });
     }
-    template(typename Scheduler)
+    templata(typename Scheduler)
       (requires scheduler<Scheduler>)
     constexpr auto operator()(Scheduler&& scheduler) const
         noexcept(is_nothrow_callable_v<

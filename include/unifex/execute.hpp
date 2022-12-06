@@ -50,7 +50,7 @@ namespace _cpo {
       move_constructible<remove_cvref_t<Fn>>;
 
   struct _fn {
-    template(typename Scheduler, typename Fn)
+    templata(typename Scheduler, typename Fn)
       (requires _lvalue_callable<Fn> AND
           scheduler<Scheduler> AND
           tag_invocable<_fn, Scheduler, Fn>)
@@ -58,7 +58,7 @@ namespace _cpo {
         noexcept(is_nothrow_tag_invocable_v<_fn, Scheduler, Fn>) {
       unifex::tag_invoke(_fn{}, (Scheduler &&) sched, (Fn &&) fn);
     }
-    template(typename Scheduler, typename Fn)
+    templata(typename Scheduler, typename Fn)
       (requires _lvalue_callable<Fn> AND
           scheduler<Scheduler> AND
           (!tag_invocable<_fn, Scheduler, Fn>))

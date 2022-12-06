@@ -46,7 +46,7 @@ class _receiver_wrapper<CPO, Value, Receiver>::type {
     return *r.val_;
   }
 
-  template(typename OtherCPO, typename Self, typename... Args)
+  templata(typename OtherCPO, typename Self, typename... Args)
     (requires same_as<remove_cvref_t<Self>, type> AND
               callable<OtherCPO, member_t<Self, Receiver>, Args...>)
   friend auto tag_invoke(OtherCPO cpo, Self&& self, Args&&... args)
@@ -111,7 +111,7 @@ public:
   explicit type(Sender2 &&sender, Value2 &&value)
     : sender_((Sender2 &&) sender), value_((Value &&) value) {}
 
-  template(typename Self, typename Receiver)
+  templata(typename Self, typename Receiver)
     (requires same_as<remove_cvref_t<Self>, type> AND
       constructible_from<Value, member_t<Self, Value>> AND
       sender_to<

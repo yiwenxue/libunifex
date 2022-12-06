@@ -169,7 +169,7 @@ struct _element_receiver<Index, Receiver, Senders...>::type final {
 
   Receiver& get_receiver() const { return op_.receiver_; }
 
-  template(typename CPO, typename R)
+  templata(typename CPO, typename R)
       (requires is_receiver_query_cpo_v<CPO> AND
           same_as<R, element_receiver> AND
           is_callable_v<CPO, const Receiver&>)
@@ -319,7 +319,7 @@ class _sender<Senders...>::type {
   explicit type(Senders2&&... senders)
     : senders_((Senders2 &&) senders...) {}
 
-  template(typename CPO, typename Sender, typename Receiver)
+  templata(typename CPO, typename Sender, typename Receiver)
       (requires same_as<CPO, tag_t<unifex::connect>> AND
         same_as<remove_cvref_t<Sender>, type> AND
         when_all_connectable_v<remove_cvref_t<Receiver>, member_t<Sender, Senders>...>)
@@ -377,13 +377,13 @@ class _sender<Senders...>::type {
 
 namespace _cpo {
   struct _fn {
-    template (typename... Senders)
+    templata(typename... Senders)
       (requires (unifex::sender<Senders> &&...) AND tag_invocable<_fn, Senders...>)
     auto operator()(Senders&&... senders) const
         -> tag_invoke_result_t<_fn, Senders...> {
       return tag_invoke(*this, (Senders &&) senders...);
     }
-    template (typename... Senders)
+    templata(typename... Senders)
       (requires (typed_sender<Senders> &&...) AND (!tag_invocable<_fn, Senders...>))
     auto operator()(Senders&&... senders) const
         -> _when_all::sender<Senders...> {

@@ -57,7 +57,7 @@ struct _sender {
   explicit _sender(async_manual_reset_event& evt) noexcept
     : evt_(&evt) {}
 
-  template (typename Receiver)
+  templata(typename Receiver)
     (requires receiver_of<Receiver> AND scheduler_provider<Receiver>)
   operation<remove_cvref_t<Receiver>> connect(Receiver&& r) const noexcept(
       noexcept(operation<remove_cvref_t<Receiver>>{

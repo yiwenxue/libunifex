@@ -85,7 +85,7 @@ struct _promise_base {
 template <typename T>
 struct _return_value_or_void {
   struct type {
-    template(typename Value = T)
+    templata(typename Value = T)
         (requires convertible_to<Value, T> AND constructible_from<T, Value>)
     void return_value(Value&& value) noexcept(
         std::is_nothrow_constructible_v<T, Value>) {
@@ -141,7 +141,7 @@ struct _promise {
       this->expected_.state_ = _state::exception;
     }
 
-    template(typename Value)
+    templata(typename Value)
         (requires callable<decltype(unifex::await_transform), type&, Value>)
     auto await_transform(Value&& value)
         noexcept(is_nothrow_callable_v<decltype(unifex::await_transform), type&, Value>)

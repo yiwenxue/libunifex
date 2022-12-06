@@ -30,7 +30,7 @@ namespace unifex {
 namespace _visit_continuations_cpo {
   inline const struct _fn {
 #if !UNIFEX_NO_COROUTINES
-    template(typename Promise, typename Func)
+    templata(typename Promise, typename Func)
         (requires (!same_as<Promise, void>) AND callable<_fn, Promise&, Func>)
     friend void tag_invoke(
         _fn cpo,
@@ -40,7 +40,7 @@ namespace _visit_continuations_cpo {
     }
 #endif // UNIFEX_NO_COROUTINES
 
-    template(typename Continuation, typename Func)
+    templata(typename Continuation, typename Func)
       (requires tag_invocable<_fn, const Continuation&, Func>)
     void operator()(const Continuation& c, Func&& func) const
         noexcept(is_nothrow_tag_invocable_v<
@@ -56,7 +56,7 @@ namespace _visit_continuations_cpo {
       return tag_invoke(_fn{}, c, (Func &&) func);
     }
 
-    template(typename Continuation, typename Func)
+    templata(typename Continuation, typename Func)
       (requires (!tag_invocable<_fn, const Continuation&, Func>))
     void operator()(const Continuation&, Func&&) const noexcept {}
   } visit_continuations {};
@@ -197,7 +197,7 @@ struct continuation_handle<void> {
   // forward-declare a constrained function and provide its definition later. So
   // below we define a constrained constructor that trivially dispatches to an
   // unconstrained implementation defined elsewhere.
-  template (typename Promise)
+  templata(typename Promise)
     (requires (!same_as<Promise, void>))
   /*implicit*/ continuation_handle(coro::coroutine_handle<Promise> continuation) noexcept
     : continuation_handle(0, (coro::coroutine_handle<Promise>&&) continuation)

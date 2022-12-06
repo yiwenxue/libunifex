@@ -41,13 +41,13 @@ namespace _demat {
   template <typename Receiver>
   class _receiver<Receiver>::type {
    public:
-    template(typename Receiver2)
+    templata(typename Receiver2)
       (requires constructible_from<Receiver, Receiver2>)
     explicit type(Receiver2&& receiver) noexcept(
         std::is_nothrow_constructible_v<Receiver, Receiver2>)
       : receiver_(static_cast<Receiver2&&>(receiver)) {}
 
-    template(typename CPO, typename... Values)
+    templata(typename CPO, typename... Values)
         (requires is_receiver_cpo_v<CPO> AND is_callable_v<CPO, Receiver, Values...>)
     void set_value(CPO cpo, Values&&... values) && noexcept(
         is_nothrow_callable_v<CPO, Receiver, Values...>) {
@@ -56,7 +56,7 @@ namespace _demat {
           static_cast<Values&&>(values)...);
     }
 
-    template(typename Error)
+    templata(typename Error)
         (requires receiver<Receiver, Error>)
     void set_error(Error&& error) && noexcept {
       unifex::set_error(
@@ -67,7 +67,7 @@ namespace _demat {
       unifex::set_done(static_cast<Receiver&&>(receiver_));
     }
 
-    template(typename CPO, UNIFEX_DECLARE_NON_DEDUCED_TYPE(R, type))
+    templata(typename CPO, UNIFEX_DECLARE_NON_DEDUCED_TYPE(R, type))
         (requires is_receiver_query_cpo_v<CPO> AND is_callable_v<CPO, const Receiver&>)
     friend auto tag_invoke(CPO cpo, const UNIFEX_USE_NON_DEDUCED_TYPE(R, type)& r)
         noexcept(is_nothrow_callable_v<CPO, const Receiver&>)
@@ -165,7 +165,7 @@ namespace _demat {
         noexcept(std::is_nothrow_constructible_v<Source, Source2>)
       : source_(static_cast<Source2&&>(source)) {}
 
-    template(typename Self, typename Receiver)
+    templata(typename Self, typename Receiver)
         (requires same_as<remove_cvref_t<Self>, type> AND
           sender_to<member_t<Self, Source>, receiver_t<Receiver>>)
     friend auto tag_invoke(tag_t<unifex::connect>, Self&& self, Receiver&& r)
@@ -192,14 +192,14 @@ namespace _demat_cpo {
         meta_tag_invoke_result<_fn>,
         meta_quote1<_demat::sender>>::template apply<Sender>;
   public:
-    template(typename Sender)
+    templata(typename Sender)
       (requires tag_invocable<_fn, Sender>)
     auto operator()(Sender&& predecessor) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Sender>)
         -> _result_t<Sender> {
       return unifex::tag_invoke(_fn{}, (Sender&&) predecessor);
     }
-    template(typename Sender)
+    templata(typename Sender)
       (requires (!tag_invocable<_fn, Sender>))
     auto operator()(Sender&& predecessor) const
         noexcept(std::is_nothrow_constructible_v<remove_cvref_t<Sender>, Sender>)

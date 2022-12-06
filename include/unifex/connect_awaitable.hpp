@@ -106,7 +106,7 @@ public:
       visit_continuations(p.receiver_, (Func&&)func);
     }
 
-    template(typename CPO)
+    templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO> AND
                 is_callable_v<CPO, const Receiver&>)
     friend auto tag_invoke(CPO cpo, const promise_type& p)

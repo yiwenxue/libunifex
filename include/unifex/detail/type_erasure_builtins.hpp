@@ -41,7 +41,7 @@ namespace unifex
     struct _destroy_cpo {
       using type_erased_signature_t = void(this_&) noexcept;
 
-      template(typename T)                              //
+      templata(typename T)                              //
           (requires std::is_nothrow_destructible_v<T>)  //
           void
           operator()(T& object) const noexcept {
@@ -54,7 +54,7 @@ namespace unifex
       using type_erased_signature_t =
           void(void* p, this_&& src) noexcept(RequireNoexceptMove);
 
-      template(typename T)  //
+      templata(typename T)  //
           (requires(
               !RequireNoexceptMove ||
               std::is_nothrow_move_constructible_v<T>))  //
@@ -70,7 +70,7 @@ namespace unifex
       using type_erased_signature_t =
           void(void* p, const this_& src) noexcept(RequireNoexceptCopy);
 
-      template(typename T)  //
+      templata(typename T)  //
           (requires(
               !RequireNoexceptCopy ||
               std::is_nothrow_copy_constructible_v<T>))  //

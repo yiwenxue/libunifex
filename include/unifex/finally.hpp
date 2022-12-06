@@ -149,7 +149,7 @@ namespace unifex
         unifex::set_done(static_cast<Receiver&&>(op->receiver_));
       }
 
-      template(typename CPO, typename R)
+      templata(typename CPO, typename R)
           (requires is_receiver_query_cpo_v<CPO> AND
             same_as<R, value_receiver> AND
             is_callable_v<CPO, const Receiver&>)
@@ -227,7 +227,7 @@ namespace unifex
             static_cast<Error&&>(errorCopy));
       }
 
-      template(typename OtherError)
+      templata(typename OtherError)
           (requires receiver<Receiver, OtherError>)
       void set_error(OtherError otherError) && noexcept {
         auto* const op = op_;
@@ -255,7 +255,7 @@ namespace unifex
         unifex::set_done(static_cast<Receiver&&>(op->receiver_));
       }
 
-      template(typename CPO, typename R)
+      templata(typename CPO, typename R)
           (requires is_receiver_query_cpo_v<CPO> AND
             same_as<R, error_receiver> AND
             is_callable_v<CPO, const Receiver&>)
@@ -309,7 +309,7 @@ namespace unifex
         unifex::set_done(static_cast<Receiver&&>(op->receiver_));
       }
 
-      template(typename Error)
+      templata(typename Error)
           (requires receiver<Receiver, Error>)
       void set_error(Error&& error) && noexcept {
         auto* const op = op_;
@@ -325,7 +325,7 @@ namespace unifex
         unifex::set_done(static_cast<Receiver&&>(op->receiver_));
       }
 
-      template(typename CPO, typename R)
+      templata(typename CPO, typename R)
           (requires is_receiver_query_cpo_v<CPO> AND
             same_as<R, done_receiver> AND
             is_callable_v<CPO, const Receiver&>)
@@ -371,7 +371,7 @@ namespace unifex
       type(type&& other) noexcept
         : op_(std::exchange(other.op_, nullptr)) {}
 
-      template(typename... Values)
+      templata(typename... Values)
           (requires receiver_of<Receiver, Values...>)
       void set_value(Values&&... values) && noexcept {
         auto* const op = op_;
@@ -468,7 +468,7 @@ namespace unifex
         }
       }
 
-      template(typename CPO, typename R)
+      templata(typename CPO, typename R)
           (requires is_receiver_query_cpo_v<CPO> AND
             same_as<R, type> AND
             is_callable_v<CPO, const Receiver&>)
@@ -671,7 +671,7 @@ namespace unifex
       // that could be created for each of the results that SourceSender might
       // complete with. For now we just check done_receiver as an approximation.
 
-      template(typename CPO, typename S, typename Receiver)
+      templata(typename CPO, typename S, typename Receiver)
         (requires
           same_as<CPO, tag_t<connect>> AND
           same_as<remove_cvref_t<S>, sender> AND

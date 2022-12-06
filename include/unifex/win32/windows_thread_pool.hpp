@@ -437,7 +437,7 @@ public:
 
     static constexpr bool sends_done = true;
 
-    template(typename Receiver)
+    templata(typename Receiver)
         (requires receiver_of<Receiver> AND
             is_stop_never_possible_v<stop_token_type_t<Receiver>>)
     schedule_op<unifex::remove_cvref_t<Receiver>> connect(Receiver&& r) const {
@@ -445,7 +445,7 @@ public:
             *pool_, (Receiver&&)r};
     }
 
-    template(typename Receiver)
+    templata(typename Receiver)
         (requires receiver_of<Receiver> AND
             (!is_stop_never_possible_v<stop_token_type_t<Receiver>>))
     cancellable_schedule_op<unifex::remove_cvref_t<Receiver>> connect(Receiver&& r) const {
@@ -697,7 +697,7 @@ public:
     , dueTime_(dueTime)
     {}
 
-    template(typename Receiver)
+    templata(typename Receiver)
         (requires unifex::receiver_of<Receiver>)
     schedule_at_op<unifex::remove_cvref_t<Receiver>> connect(Receiver&& r) const {
         return schedule_at_op<unifex::remove_cvref_t<Receiver>>{
@@ -777,7 +777,7 @@ public:
     , duration_(duration)
     {}
 
-    template(typename Receiver)
+    templata(typename Receiver)
         (requires unifex::receiver_of<Receiver>)
     schedule_after_op<Duration, unifex::remove_cvref_t<Receiver>> connect(Receiver&& r) const {
         return schedule_after_op<Duration, unifex::remove_cvref_t<Receiver>>{

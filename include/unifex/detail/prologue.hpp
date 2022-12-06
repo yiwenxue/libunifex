@@ -31,11 +31,11 @@ UNIFEX_DIAGNOSTIC_PUSH
 #endif
 
 #if UNIFEX_CXX_CONCEPTS
-  #define template(...) \
+  #define templata(...) \
     template <__VA_ARGS__> UNIFEX_PP_EXPAND \
     /**/
 #else
-  #define template(...) \
+  #define templata(...) \
     template <__VA_ARGS__ UNIFEX_TEMPLATE_SFINAE_AUX_ \
     /**/
 #endif

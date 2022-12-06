@@ -68,7 +68,7 @@ struct _value_receiver<Receiver, Values...>::type {
     unifex::set_done(std::forward<Receiver>(receiver_));
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const value_receiver& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -112,7 +112,7 @@ struct _error_receiver<Receiver, Error>::type {
     unifex::set_done(std::forward<Receiver>(receiver_));
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const error_receiver& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -155,7 +155,7 @@ struct _done_receiver<Receiver>::type {
     unifex::set_done(std::forward<Receiver>(receiver_));
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const done_receiver& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -223,7 +223,7 @@ struct _predecessor_receiver<Successor, Receiver>::type {
     }
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const predecessor_receiver& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -313,7 +313,7 @@ struct _sender<Predecessor, Successor>::type {
 
 namespace _via_cpo {
   inline const struct _fn {
-    template (typename Scheduler, typename Sender)
+    templata(typename Scheduler, typename Sender)
       (requires scheduler<Scheduler> AND sender<Sender>)
     auto operator()(Scheduler&& sched, Sender&& send) const
         noexcept(noexcept(

@@ -42,13 +42,13 @@ namespace unifex
     template <typename Receiver>
     class _receiver<Receiver>::type {
     public:
-      template(typename Receiver2)
+      templata(typename Receiver2)
         (requires constructible_from<Receiver, Receiver2>)
       explicit type(Receiver2&& receiver) noexcept(
           std::is_nothrow_constructible_v<Receiver, Receiver2>)
         : receiver_(static_cast<Receiver2&&>(receiver)) {}
 
-      template(typename... Values)
+      templata(typename... Values)
           (requires receiver_of<Receiver, tag_t<unifex::set_value>, Values...>)
       void
       set_value(Values&&... values) && noexcept(
@@ -59,7 +59,7 @@ namespace unifex
             static_cast<Values&&>(values)...);
       }
 
-      template(typename Error)
+      templata(typename Error)
           (requires receiver_of<Receiver, tag_t<unifex::set_error>, Error>)
       void set_error(Error&& error) && noexcept {
         if constexpr (is_nothrow_receiver_of_v<
@@ -83,7 +83,7 @@ namespace unifex
         }
       }
 
-      template(typename R = Receiver)
+      templata(typename R = Receiver)
           (requires receiver_of<R, tag_t<unifex::set_done>>)
       void set_done() && noexcept {
         if constexpr (is_nothrow_receiver_of_v<Receiver, tag_t<unifex::set_done>>) {
@@ -100,7 +100,7 @@ namespace unifex
         }
       }
 
-      template(typename CPO, UNIFEX_DECLARE_NON_DEDUCED_TYPE(R, type))
+      templata(typename CPO, UNIFEX_DECLARE_NON_DEDUCED_TYPE(R, type))
           (requires is_receiver_query_cpo_v<CPO> AND
               is_callable_v<CPO, const Receiver&>)
       friend auto tag_invoke(
@@ -182,13 +182,13 @@ namespace unifex
 
       static constexpr bool sends_done = false;
 
-      template(typename Source2)
+      templata(typename Source2)
           (requires constructible_from<Source, Source2>)
       explicit type(Source2&& source) noexcept(
           std::is_nothrow_constructible_v<Source, Source2>)
         : source_(static_cast<Source2&&>(source)) {}
 
-      template(typename Self, typename Receiver)
+      templata(typename Self, typename Receiver)
           (requires same_as<remove_cvref_t<Self>, type> AND
             receiver<Receiver> AND
             sender_to<member_t<Self, Source>, receiver_t<Receiver>>)
@@ -216,14 +216,14 @@ namespace unifex
           meta_tag_invoke_result<_fn>,
           meta_quote1<_mat::sender>>::template apply<Source>;
     public:
-      template(typename Source)
+      templata(typename Source)
         (requires tag_invocable<_fn, Source>)
       auto operator()(Source&& source) const
           noexcept(is_nothrow_tag_invocable_v<_fn, Source>)
           -> _result_t<Source> {
         return unifex::tag_invoke(_fn{}, (Source&&) source);
       }
-      template(typename Source)
+      templata(typename Source)
         (requires (!tag_invocable<_fn, Source>))
       auto operator()(Source&& source) const
           noexcept(std::is_nothrow_constructible_v<_mat::sender<Source>, Source>)

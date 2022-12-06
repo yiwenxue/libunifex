@@ -65,7 +65,7 @@ public:
     func_((SuccessorFactory2&&)func)
   {}
 
-  template(typename Self, typename Receiver)
+  templata(typename Self, typename Receiver)
     (requires same_as<remove_cvref_t<Self>, type> AND receiver<Receiver>)
   friend auto tag_invoke(tag_t<unifex::connect>, Self&& self, Receiver&& r)
     noexcept(
@@ -118,7 +118,7 @@ struct _operation<StateFactory, SuccessorFactory, Receiver>::type {
 
 namespace _cpo {
   struct _fn {
-    template (typename StateFactory, typename SuccessorFactory)
+    templata(typename StateFactory, typename SuccessorFactory)
       (requires
         callable<std::decay_t<StateFactory>> AND
         callable<

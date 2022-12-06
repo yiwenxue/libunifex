@@ -28,7 +28,7 @@ namespace _for_each {
     template <typename Func>
     struct _map {
       Func func_;
-      template(typename... Ts)
+      templata(typename... Ts)
         (requires invocable<Func&, Ts...>)
       unit operator()(unit s, Ts&&... values)
           noexcept(std::is_nothrow_invocable_v<Func&, Ts...>) {
@@ -58,14 +58,14 @@ namespace _for_each {
         meta_tag_invoke_result<_fn>,
         meta_quote2<_default_result_t>>::template apply<Stream, Func>;
   public:
-    template(typename Stream, typename Func)
+    templata(typename Stream, typename Func)
       (requires tag_invocable<_fn, Stream, Func>)
     auto operator()(Stream&& stream, Func&& func) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Stream, Func>)
         -> _result_t<Stream, Func> {
       return unifex::tag_invoke(_fn{}, (Stream&&) stream, (Func&&) func);
     }
-    template(typename Stream, typename Func)
+    templata(typename Stream, typename Func)
       (requires (!tag_invocable<_fn, Stream, Func>))
     auto operator()(Stream&& stream, Func&& func) const
         -> _result_t<Stream, Func> {

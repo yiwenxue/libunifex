@@ -56,7 +56,7 @@ struct _apply_fn_impl<Cpo, Target>::type {
   Cpo&& cpo_;
   Target&& target_;
 
-  template (typename... ArgN)
+  templata(typename... ArgN)
     (requires callable<Cpo, Target, ArgN...>)
   auto operator()(ArgN&&... argN)
     noexcept(is_nothrow_callable_v<Cpo, Target, ArgN...>)
@@ -80,14 +80,14 @@ struct _result_impl<Cpo, ArgN...>::type : _result_base {
   UNIFEX_NO_UNIQUE_ADDRESS Cpo cpo_;
   std::tuple<ArgN...> argN_;
 
-  template (typename Target)
+  templata(typename Target)
     (requires (!derived_from<remove_cvref_t<Target>, _result_base>) AND
       callable<Cpo const&, Target, ArgN const&...>)
   decltype(auto) operator()(Target&& target) const &
     noexcept(is_nothrow_callable_v<Cpo const&, Target, ArgN const&...>) {
     return std::apply(_apply_fn<Cpo const&, Target>{cpo_, (Target&&) target}, argN_);
   }
-  template (typename Target)
+  templata(typename Target)
     (requires (!derived_from<remove_cvref_t<Target>, _result_base>) AND
       callable<Cpo, Target, ArgN...>)
   decltype(auto) operator()(Target&& target) &&
@@ -97,7 +97,7 @@ struct _result_impl<Cpo, ArgN...>::type : _result_base {
         std::move(argN_));
   }
 
-  template (typename Target, typename Self)
+  templata(typename Target, typename Self)
     (requires (!derived_from<remove_cvref_t<Target>, _result_base>) AND
       same_as<remove_cvref_t<Self>, type> AND
       callable<member_t<Self, Cpo>, Target, member_t<Self, ArgN>...>)
@@ -109,7 +109,7 @@ struct _result_impl<Cpo, ArgN...>::type : _result_base {
         ((Self&&) self).argN_);
   }
 
-  template (typename Other, typename Self)
+  templata(typename Other, typename Self)
     (requires derived_from<remove_cvref_t<Other>, _result_base> AND
       same_as<remove_cvref_t<Self>, type>)
   friend decltype(auto) operator|(Other&& other, Self&& self)

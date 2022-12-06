@@ -106,7 +106,7 @@ public:
     unifex::set_done(std::move(op_->receiver_));
   }
 
-  template(typename Error)
+  templata(typename Error)
     (requires receiver<Receiver, Error>)
   void set_error(Error&& error) noexcept {
     UNIFEX_ASSERT(op_ != nullptr);
@@ -114,7 +114,7 @@ public:
   }
 
 private:
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO> AND
           is_callable_v<CPO, const Receiver&>)
   friend auto tag_invoke(CPO cpo, const type& r)
@@ -209,7 +209,7 @@ public:
   , predicate_((Predicate2&&)predicate)
   {}
 
-  template(typename Sender, typename Receiver)
+  templata(typename Sender, typename Receiver)
     (requires same_as<remove_cvref_t<Sender>, type> AND
         constructible_from<remove_cvref_t<Receiver>, Receiver> AND
         sender_to<
@@ -247,7 +247,7 @@ inline const struct repeat_effect_until_cpo {
     return tag_invoke(*this, (Source&&)source, (Predicate&&)predicate);
   }
 
-  template(typename Source, typename Predicate)
+  templata(typename Source, typename Predicate)
     (requires (!tag_invocable<repeat_effect_until_cpo, Source, Predicate>) AND
         constructible_from<remove_cvref_t<Source>, Source> AND
         constructible_from<std::decay_t<Predicate>, Predicate>)
@@ -280,7 +280,7 @@ inline const struct repeat_effect_cpo {
     return tag_invoke(*this, (Source&&)source);
   }
 
-  template(typename Source)
+  templata(typename Source)
     (requires (!tag_invocable<repeat_effect_cpo, Source>) AND
         constructible_from<remove_cvref_t<Source>, Source>)
   auto operator()(Source&& source) const

@@ -41,14 +41,14 @@ template <typename Receiver, typename VariantType>
 struct _receiver<Receiver, VariantType>::type {
   UNIFEX_NO_UNIQUE_ADDRESS Receiver receiver_;
 
-  template(typename... Values)
+  templata(typename... Values)
       (requires receiver_of<Receiver, Values...>)
   void set_value(Values&&... values) && {
     unifex::set_value((Receiver &&) receiver_,
         VariantType(std::make_tuple((Values &&)(values)...)));
   }
 
-  template(typename Error)
+  templata(typename Error)
       (requires receiver<Receiver, Error>)
   void set_error(Error&& error) && noexcept {
     unifex::set_error((Receiver &&)(receiver_), (Error &&)(error));
@@ -58,7 +58,7 @@ struct _receiver<Receiver, VariantType>::type {
     unifex::set_done((Receiver &&) receiver_);
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO> AND is_callable_v<CPO, const Receiver&>)
   friend auto tag_invoke(CPO cpo, const type& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -101,7 +101,7 @@ struct _sender<Predecessor>::type {
     return blocking(sender.pred_);
   }
 
-  template(typename Sender, typename Receiver)
+  templata(typename Sender, typename Receiver)
     (requires same_as<remove_cvref_t<Sender>, type> AND receiver<Receiver> AND
         sender_to<member_t<Sender, Predecessor>, receiver_t<remove_cvref_t< Receiver>>>)
   friend auto tag_invoke(tag_t<unifex::connect>, Sender&& s, Receiver&& r) 
@@ -127,7 +127,7 @@ namespace _cpo {
         meta_quote1<_into_variant::sender>>::template apply<Sender>;
   
   public:
-    template(typename Sender)
+    templata(typename Sender)
       (requires tag_invocable<_fn, Sender>)
     auto operator()(Sender&& predecessor) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Sender>)
@@ -135,7 +135,7 @@ namespace _cpo {
       return unifex::tag_invoke(_fn{}, (Sender &&)(predecessor));
     }
   
-    template(typename Sender)
+    templata(typename Sender)
       (requires(!tag_invocable<_fn, Sender>))
     auto operator()(Sender&& predecessor) const 
         noexcept(std::is_nothrow_constructible_v<

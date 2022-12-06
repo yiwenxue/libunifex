@@ -76,7 +76,7 @@ private:
 
     static constexpr bool sends_done = true;
 
-    template (typename Receiver)
+    templata(typename Receiver)
       (requires receiver_of<Receiver>)
     auto connect(Receiver&& rec) const
       -> typename _op<remove_cvref_t<Receiver>>::type {

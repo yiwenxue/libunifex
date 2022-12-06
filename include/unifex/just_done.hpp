@@ -59,7 +59,7 @@ class sender {
 
   static constexpr bool sends_done = true;
 
-  template(typename This, typename Receiver)
+  templata(typename This, typename Receiver)
       (requires same_as<remove_cvref_t<This>, sender> AND
         receiver<Receiver>)
   friend auto tag_invoke(tag_t<connect>, This&&, Receiver&& r)

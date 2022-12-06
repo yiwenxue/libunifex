@@ -75,7 +75,7 @@ class _sender<Error>::type {
     noexcept(std::is_nothrow_constructible_v<Error, Error2>)
     : error_((Error2 &&) error) {}
 
-  template(typename This, typename Receiver)
+  templata(typename This, typename Receiver)
       (requires same_as<remove_cvref_t<This>, type> AND
         receiver<Receiver, Error> AND
         constructible_from<Error, member_t<This, Error>>)

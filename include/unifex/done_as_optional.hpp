@@ -31,7 +31,7 @@ namespace unifex {
 namespace _done_as_opt {
 namespace _cpo {
 inline const struct _fn {
-  template(typename Sender) //
+  templata(typename Sender) //
     (requires _single_typed_sender<Sender>) //
   auto operator()(Sender&& predecessor) const {
     using optional_t = std::optional<

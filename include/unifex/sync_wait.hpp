@@ -142,7 +142,7 @@ std::optional<Result> _impl(Sender&& sender) {
 
 namespace _sync_wait_cpo {
   struct _fn {
-    template(typename Sender)
+    templata(typename Sender)
       (requires typed_sender<Sender>)
     auto operator()(Sender&& sender) const
         -> std::optional<sender_single_value_result_t<remove_cvref_t<Sender>>> {
@@ -163,7 +163,7 @@ inline constexpr _sync_wait_cpo::_fn sync_wait {};
 namespace _sync_wait_r_cpo {
   template <typename Result>
   struct _fn {
-    template(typename Sender)
+    templata(typename Sender)
       (requires sender<Sender>)
     decltype(auto) operator()(Sender&& sender) const {
       using Result2 = non_void_t<wrap_reference_t<decay_rvalue_t<Result>>>;

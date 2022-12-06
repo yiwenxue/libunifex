@@ -29,7 +29,7 @@
 namespace unifex {
 namespace _on {
   inline const struct _fn {
-    template(typename Scheduler, typename Sender)
+    templata(typename Scheduler, typename Sender)
         (requires sender<Sender> AND scheduler<Scheduler> AND //
           tag_invocable<_fn, Sender, Scheduler>)
     auto operator()(Scheduler&& scheduler, Sender&& sender) const
@@ -39,7 +39,7 @@ namespace _on {
           _fn{}, (Scheduler &&) scheduler, (Sender &&) sender);
     }
 
-    template(typename Scheduler, typename Sender)
+    templata(typename Scheduler, typename Sender)
         (requires sender<Sender> AND scheduler<Scheduler> AND //
           (!tag_invocable<_fn, Scheduler, Sender>))
     auto operator()(Scheduler&& scheduler, Sender&& sender) const {

@@ -123,7 +123,7 @@ struct _connect_fn<CPOs, Values...>::type {
   using _rec_ref_t = _receiver_ref<CPOs, Values...>;
   using type_erased_signature_t = _operation_state(this_&&, _rec_ref_t);
 
-  template(typename Sender)
+  templata(typename Sender)
     (requires sender_to<Sender, _rec_ref_t>)
   friend _operation_state
   tag_invoke(const type&, Sender&& s, _rec_ref_t r) {
@@ -140,7 +140,7 @@ struct _connect_fn<CPOs, Values...>::type {
     return tag_invoke(*this, (Self&&) s, std::move(r));
   }
 #else
-  template(typename Self)
+  templata(typename Self)
     (requires tag_invocable<type, Self, _rec_ref_t>)
   _operation_state operator()(Self&& s, _rec_ref_t r) const {
     return tag_invoke(*this, (Self&&) s, std::move(r));
@@ -173,7 +173,7 @@ struct _op_for<Receiver>::type {
 
   // This operation state also implements the receiver CPOs and forwards them
   // to the receiver after unsubscribing the stop token.
-  template (typename CPO, typename... Args)
+  templata(typename CPO, typename... Args)
     (requires is_receiver_cpo_v<CPO> AND is_callable_v<CPO, Receiver, Args...>)
   friend void tag_invoke(CPO cpo, type&& self, Args&&... args)
     noexcept(is_nothrow_callable_v<CPO, Receiver, Args...>) {
@@ -182,7 +182,7 @@ struct _op_for<Receiver>::type {
   }
 
   // Forward other receiver queries
-  template (typename CPO)
+  templata(typename CPO)
     (requires is_receiver_query_cpo_v<CPO> AND is_callable_v<CPO, const Receiver&>)
   friend auto tag_invoke(CPO cpo, const type& self)
     noexcept(is_nothrow_callable_v<CPO, const Receiver&>)
@@ -234,7 +234,7 @@ struct _with<CPOs...>::_sender<Values...>::type
 
   static constexpr bool sends_done = true;
 
-  template (typename Receiver)
+  templata(typename Receiver)
     (requires receiver_of<Receiver, Values...> AND
       (invocable<CPOs, Receiver const&> &&...))
   _operation_state_for<Receiver> connect(Receiver r) && {

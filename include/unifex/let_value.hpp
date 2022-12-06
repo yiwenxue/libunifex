@@ -93,7 +93,7 @@ private:
     op_.values_.template destruct<decayed_tuple<Values...>>();
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const successor_receiver& r) noexcept(
       is_nothrow_callable_v<CPO, const typename Operation::receiver_type&>)
@@ -174,7 +174,7 @@ struct _predecessor_receiver<Operation>::type {
     unifex::set_error(std::move(op.receiver_), (Error &&) error);
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const predecessor_receiver& r) noexcept(
       is_nothrow_callable_v<CPO, const receiver_type&>)
@@ -340,7 +340,7 @@ public:
           std::is_nothrow_constructible_v<SuccessorFactory, SuccessorFactory2>)
     : pred_((Predecessor2 &&) pred), func_((SuccessorFactory2 &&) func) {}
 
-  template(typename CPO, typename Sender, typename Receiver)
+  templata(typename CPO, typename Sender, typename Receiver)
       (requires same_as<CPO, tag_t<unifex::connect>> AND
         same_as<remove_cvref_t<Sender>, type>)
   friend auto tag_invoke([[maybe_unused]] CPO cpo, Sender&& sender, Receiver&& receiver)

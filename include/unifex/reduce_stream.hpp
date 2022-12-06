@@ -83,7 +83,7 @@ struct _error_cleanup_receiver<StreamSender, State, ReducerFunc, Receiver>::type
     unifex::set_error(static_cast<Receiver&&>(op.receiver_), std::move(ex));
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const type& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -132,7 +132,7 @@ struct _done_cleanup_receiver<StreamSender, State, ReducerFunc, Receiver>::type 
         std::forward<State>(op.state_));
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const type& r)
       noexcept(is_nothrow_callable_v<CPO, const Receiver&>)
@@ -169,7 +169,7 @@ struct _next_receiver<StreamSender, State, ReducerFunc, Receiver>::type {
   using next_receiver_t = next_receiver<StreamSender, State, ReducerFunc, Receiver>;
   operation<StreamSender, State, ReducerFunc, Receiver>& op_;
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const type& r)
       noexcept(is_nothrow_callable_v<CPO, const Receiver&>)
@@ -322,7 +322,7 @@ struct _sender<StreamSender, State, ReducerFunc>::type {
   template <typename Receiver>
   using done_cleanup_receiver_t = done_cleanup_receiver<StreamSender, State, ReducerFunc, Receiver>;
 
-  template (typename Self, typename Receiver)
+  templata(typename Self, typename Receiver)
       (requires same_as<remove_cvref_t<Self>, type> AND receiver<Receiver> AND
           sender_to<next_sender_t<StreamSender>, next_receiver_t<Receiver>> AND
           sender_to<cleanup_sender_t<StreamSender>, error_cleanup_receiver_t<Receiver>> AND

@@ -40,7 +40,7 @@ namespace _rec_cpo {
         meta_tag_invoke_result<_set_value_fn>,
         meta_quote1_<set_value_member_result_t>>::template apply<Receiver, Values...>;
   public:
-    template(typename Receiver, typename... Values)
+    templata(typename Receiver, typename... Values)
       (requires tag_invocable<_set_value_fn, Receiver, Values...>)
     auto operator()(Receiver&& r, Values&&... values) const
         noexcept(
@@ -49,7 +49,7 @@ namespace _rec_cpo {
       return unifex::tag_invoke(
           _set_value_fn{}, (Receiver &&) r, (Values &&) values...);
     }
-    template(typename Receiver, typename... Values)
+    templata(typename Receiver, typename... Values)
       (requires (!tag_invocable<_set_value_fn, Receiver, Values...>))
     auto operator()(Receiver&& r, Values&&... values) const
         noexcept(noexcept(
@@ -71,7 +71,7 @@ namespace _rec_cpo {
         meta_tag_invoke_result<_set_next_fn>,
         meta_quote1_<set_next_member_result_t>>::template apply<Receiver, Values...>;
   public:
-    template(typename Receiver, typename... Values)
+    templata(typename Receiver, typename... Values)
       (requires tag_invocable<_set_next_fn, Receiver, Values...>)
     auto operator()(Receiver& r, Values&&... values) const
         noexcept(
@@ -80,7 +80,7 @@ namespace _rec_cpo {
       return unifex::tag_invoke(
           _set_next_fn{}, r, (Values &&) values...);
     }
-    template(typename Receiver, typename... Values)
+    templata(typename Receiver, typename... Values)
       (requires (!tag_invocable<_set_next_fn, Receiver&, Values...>))
     auto operator()(Receiver& r, Values&&... values) const
         noexcept(noexcept(
@@ -102,7 +102,7 @@ namespace _rec_cpo {
         meta_tag_invoke_result<_set_error_fn>,
         meta_quote2<set_error_member_result_t>>::template apply<Receiver, Error>;
   public:
-    template(typename Receiver, typename Error)
+    templata(typename Receiver, typename Error)
       (requires tag_invocable<_set_error_fn, Receiver, Error>)
     auto operator()(Receiver&& r, Error&& error) const noexcept
         -> _result_t<Receiver, Error> {
@@ -115,7 +115,7 @@ namespace _rec_cpo {
       return unifex::tag_invoke(
           _set_error_fn{}, (Receiver &&) r, (Error&&) error);
     }
-    template(typename Receiver, typename Error)
+    templata(typename Receiver, typename Error)
       (requires (!tag_invocable<_set_error_fn, Receiver, Error>))
     auto operator()(Receiver&& r, Error&& error) const noexcept
         -> _result_t<Receiver, Error> {
@@ -138,7 +138,7 @@ namespace _rec_cpo {
         meta_tag_invoke_result<_set_done_fn>,
         meta_quote1<set_done_member_result_t>>::template apply<Receiver>;
   public:
-    template(typename Receiver)
+    templata(typename Receiver)
       (requires tag_invocable<_set_done_fn, Receiver>)
     auto operator()(Receiver&& r) const noexcept
         -> _result_t<Receiver> {
@@ -150,7 +150,7 @@ namespace _rec_cpo {
       );
       return unifex::tag_invoke(_set_done_fn{}, (Receiver &&) r);
     }
-    template(typename Receiver)
+    templata(typename Receiver)
       (requires (!tag_invocable<_set_done_fn, Receiver>))
     auto operator()(Receiver&& r) const noexcept
         -> _result_t<Receiver> {

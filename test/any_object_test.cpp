@@ -39,7 +39,7 @@ namespace
       return unifex::type_id<T>();
     }
 
-    template(typename T)                                            //
+    templata(typename T)                                            //
         (requires unifex::tag_invocable<get_typeid_cpo, const T&>)  //
         auto
         operator()(const T& x) const noexcept
@@ -54,7 +54,7 @@ namespace
   inline constexpr struct to_string_cpo {
     using type_erased_signature_t = std::string(const unifex::this_&);
 
-    template(typename T)(
+    templata(typename T)(
         requires unifex::tag_invocable<to_string_cpo, const T&> AND
             unifex::convertible_to<
                 unifex::tag_invoke_result_t<to_string_cpo, const T&>,
@@ -313,7 +313,7 @@ namespace
   [[maybe_unused]] inline constexpr struct get_foo_cpo {
     using type_erased_signature_t = int(const unifex::this_&);
 
-    template(typename T)                                         //
+    templata(typename T)                                         //
         (requires unifex::tag_invocable<get_foo_cpo, const T&>)  //
         auto
         operator()(const T& x) const

@@ -53,13 +53,13 @@ public:
         op_(op), receiver_{std::forward<Receiver>(r)}
     {}
 
-    template(typename... Values)
+    templata(typename... Values)
         (requires receiver_of<Receiver, Values...>)
     void set_value(Values&&... values) noexcept(is_nothrow_receiver_of_v<Receiver, Values...>) {
         unifex::set_value(std::move(receiver_), (Values&&)values...);
     }
 
-    template(typename Error)
+    templata(typename Error)
         (requires receiver<Receiver, Error>)
     void set_error(Error&& error) noexcept {
         unifex::set_error(std::move(receiver_), (Error&&)error);
@@ -73,7 +73,7 @@ public:
         return r.op_.stop_source_.get_token();
     }
 
-    template(typename CPO, typename Self)
+    templata(typename CPO, typename Self)
         (requires
             is_receiver_query_cpo_v<CPO> AND
             same_as<Self, type>)
@@ -116,7 +116,7 @@ public:
     explicit type(SuccessorFactory2&& func) : func_((SuccessorFactory2&&)func)
     {}
 
-    template(typename Self, typename Receiver)
+    templata(typename Self, typename Receiver)
         (requires same_as<remove_cvref_t<Self>, type> AND receiver<Receiver>)
     friend auto tag_invoke(tag_t<unifex::connect>, Self&& self, Receiver&& r)
         noexcept(

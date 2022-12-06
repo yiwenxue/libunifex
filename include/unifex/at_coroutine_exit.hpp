@@ -36,7 +36,7 @@ namespace unifex {
 
 namespace _xchg_cont {
 inline constexpr struct _fn {
-  template (typename ParentPromise, typename ChildPromise)
+  templata(typename ParentPromise, typename ChildPromise)
     (requires tag_invocable<_fn, ParentPromise&, continuation_handle<ChildPromise>>)
   UNIFEX_ALWAYS_INLINE
   continuation_handle<> operator()(ParentPromise& parent, continuation_handle<ChildPromise> action) const noexcept {
@@ -128,12 +128,12 @@ template <typename Receiver>
 struct _die_on_done_rec {
   struct type {
     Receiver rec_;
-    template (typename... Ts)
+    templata(typename... Ts)
       (requires receiver_of<Receiver, Ts...>)
     void set_value(Ts&&... ts) && noexcept(is_nothrow_receiver_of_v<Receiver, Ts...>) {
       unifex::set_value((Receiver&&) rec_, (Ts&&) ts...);
     }
-    template (typename E)
+    templata(typename E)
       (requires receiver<Receiver, E>)
     void set_error(E&& e) && noexcept {
       unifex::set_error((Receiver&&) rec_, (E&&) e);
@@ -164,7 +164,7 @@ struct _die_on_done {
 
     static constexpr bool sends_done = false;
 
-    template (typename Receiver)
+    templata(typename Receiver)
       (requires sender_to<Sender, _die_on_done_rec_t<Receiver>>)
     auto connect(Receiver&& rec) &&
         noexcept(is_nothrow_connectable_v<Sender, _die_on_done_rec_t<Receiver>>)
@@ -183,7 +183,7 @@ using _die_on_done_t =
     typename _die_on_done<remove_cvref_t<Sender>>::type;
 
 struct _die_on_done_fn {
-  template (typename Value)
+  templata(typename Value)
     (requires (!detail::_awaitable<Value>) AND sender<Value>)
   _die_on_done_t<Value> operator()(Value&& value) /*mutable*/
       noexcept(std::is_nothrow_constructible_v<remove_cvref_t<Value>, Value>) {
@@ -270,7 +270,7 @@ namespace _at_coroutine_exit {
       co_await std::move(action)(std::move(ts)...);
     }
   public:
-    template (typename Action, typename... Ts)
+    templata(typename Action, typename... Ts)
       (requires callable<std::decay_t<Action>, std::decay_t<Ts>...>)
     _cleanup_task<Ts...> operator()(Action&& action, Ts&&... ts) const {
       return _fn::at_coroutine_exit((Action&&) action, (Ts&&) ts...);

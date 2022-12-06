@@ -70,14 +70,14 @@ namespace _schedule {
     using _result_t =
         typename decltype(_fn::_select<Scheduler>())::template apply<Scheduler>;
   public:
-    template(typename Scheduler)
+    templata(typename Scheduler)
       (requires _with_tag_invoke<Scheduler>)
     constexpr auto operator()(Scheduler&& s) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Scheduler>)
         -> _result_t<Scheduler> {
       return tag_invoke(_fn{}, static_cast<Scheduler&&>(s));
     }
-    template(typename Scheduler)
+    templata(typename Scheduler)
       (requires (!_with_tag_invoke<Scheduler>) AND
         _with_member_schedule<Scheduler>)
     constexpr auto operator()(Scheduler&& s) const noexcept(
@@ -121,7 +121,7 @@ UNIFEX_CONCEPT //
 
 namespace _get_scheduler {
   inline const struct _fn {
-    template (typename SchedulerProvider)
+    templata(typename SchedulerProvider)
         (requires tag_invocable<_fn, const SchedulerProvider&>)
     auto operator()(const SchedulerProvider& context) const noexcept
         -> tag_invoke_result_t<_fn, const SchedulerProvider&> {
@@ -171,7 +171,7 @@ struct sender {
 
   static constexpr bool sends_done = true;
 
-  template(typename Receiver)
+  templata(typename Receiver)
     (requires receiver<Receiver>)
   friend auto tag_invoke(tag_t<connect>, sender, Receiver &&r)
       -> connect_result_t<
@@ -209,7 +209,7 @@ namespace _schedule_after {
         meta_quote2<_schedule_after_member_result_t>>
           ::template apply<TimeScheduler, Duration>;
   public:
-    template(typename TimeScheduler, typename Duration)
+    templata(typename TimeScheduler, typename Duration)
       (requires tag_invocable<_fn, TimeScheduler, Duration>)
     constexpr auto operator()(TimeScheduler&& s, Duration&& d) const
         noexcept(is_nothrow_tag_invocable_v<_fn, TimeScheduler, Duration>)
@@ -217,7 +217,7 @@ namespace _schedule_after {
       return tag_invoke(*this, (TimeScheduler &&) s, (Duration &&) d);
     }
 
-    template(typename TimeScheduler, typename Duration)
+    templata(typename TimeScheduler, typename Duration)
       (requires (!tag_invocable<_fn, TimeScheduler, Duration>))
     constexpr auto operator()(TimeScheduler&& s, Duration&& d) const noexcept(
         noexcept(static_cast<TimeScheduler&&>(s).schedule_after((Duration &&) d)))
@@ -253,7 +253,7 @@ namespace _schedule_after {
   private:
     friend _fn;
 
-    template(typename Receiver)
+    templata(typename Receiver)
       (requires receiver<Receiver>)
     friend auto tag_invoke(tag_t<connect>, const type& s, Receiver&& r)
         -> connect_result_t<
@@ -291,7 +291,7 @@ namespace _schedule_at {
         meta_quote2<_schedule_at_member_result_t>>
           ::template apply<TimeScheduler, TimePoint>;
   public:
-    template(typename TimeScheduler, typename TimePoint)
+    templata(typename TimeScheduler, typename TimePoint)
       (requires tag_invocable<_fn, TimeScheduler, TimePoint>)
     constexpr auto operator()(TimeScheduler&& s, TimePoint&& tp) const
         noexcept(is_nothrow_tag_invocable_v<_fn, TimeScheduler, TimePoint>)
@@ -299,7 +299,7 @@ namespace _schedule_at {
       return tag_invoke(*this, (TimeScheduler &&) s, (TimePoint &&) tp);
     }
 
-    template(typename TimeScheduler, typename TimePoint)
+    templata(typename TimeScheduler, typename TimePoint)
       (requires (!tag_invocable<_fn, TimeScheduler, TimePoint>))
     constexpr auto operator()(TimeScheduler&& s, TimePoint&& tp) const noexcept(
         noexcept(static_cast<TimeScheduler&&>(s).schedule_at((TimePoint &&) tp)))
@@ -337,7 +337,7 @@ namespace _schedule_at {
   private:
     friend _fn;
 
-    template(typename Receiver)
+    templata(typename Receiver)
       (requires receiver<Receiver>)
     friend auto tag_invoke(tag_t<connect>, const type& s, Receiver&& r)
         -> connect_result_t<
@@ -367,7 +367,7 @@ namespace _now {
         meta_tag_invoke_result<_fn>,
         meta_quote1<_now_member_result_t>>::template apply<TimeScheduler>;
   public:
-    template(typename TimeScheduler)
+    templata(typename TimeScheduler)
       (requires tag_invocable<_fn, TimeScheduler>)
     constexpr auto operator()(TimeScheduler&& s) const
         noexcept(is_nothrow_tag_invocable_v<_fn, TimeScheduler>)
@@ -375,7 +375,7 @@ namespace _now {
       return tag_invoke(*this, (TimeScheduler &&) s);
     }
 
-    template(typename TimeScheduler)
+    templata(typename TimeScheduler)
       (requires (!tag_invocable<_fn, TimeScheduler>))
     constexpr auto operator()(TimeScheduler&& s) const noexcept(
         noexcept(static_cast<TimeScheduler&&>(s).now()))

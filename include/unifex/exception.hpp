@@ -55,7 +55,7 @@ namespace _except_ptr {
 // If std::make_exeption_ptr() is slow, then move it into a cpp
 // file to generate less code elsewhere.
 struct _ref {
-  template (typename Obj)
+  templata(typename Obj)
     (requires (!same_as<remove_cvref_t<Obj>, _ref>))
   _ref(Obj&& obj) noexcept
     : p_((void*) std::addressof(obj))

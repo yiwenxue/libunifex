@@ -39,7 +39,7 @@ namespace unifex
 
       // This is the state that is actually heap-allocated.
       struct state {
-        template(typename... Args)                     //
+        templata(typename... Args)                     //
             (requires constructible_from<T, Args...>)  //
             explicit state(
                 std::allocator_arg_t,
@@ -57,7 +57,7 @@ namespace unifex
       // heap-allocated state.
       class base {
       public:
-        template(typename... Args)                     //
+        templata(typename... Args)                     //
             (requires constructible_from<T, Args...>)  //
             explicit base(
                 std::allocator_arg_t,
@@ -81,7 +81,7 @@ namespace unifex
           deallocateOnExit.release();
         }
 
-        template(typename... Args)                      //
+        templata(typename... Args)                      //
             (requires                                   //
              (!same_as<Allocator, allocator_type>) AND  //
                  constructible_from<T, Args...>)        //

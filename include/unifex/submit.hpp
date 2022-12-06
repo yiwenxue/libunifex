@@ -53,7 +53,7 @@ class _op<Sender, Receiver>::type {
   struct wrapped_receiver {
     type* op_;
 
-    template(typename... Values)
+    templata(typename... Values)
       (requires receiver_of<Receiver, Values...>)
     void set_value(Values&&... values) && noexcept {
       auto allocator = get_allocator(get_receiver());
@@ -61,7 +61,7 @@ class _op<Sender, Receiver>::type {
       destroy(std::move(allocator));
     }
 
-    template(typename Error)
+    templata(typename Error)
       (requires receiver<Receiver, Error>)
     void set_error(Error&& error) && noexcept {
       auto allocator = get_allocator(get_receiver());
@@ -87,7 +87,7 @@ class _op<Sender, Receiver>::type {
       return op_->receiver_;
     }
 
-    template(typename CPO)
+    templata(typename CPO)
         (requires is_receiver_query_cpo_v<CPO>)
     friend auto tag_invoke(CPO cpo, const wrapped_receiver& r) noexcept(
         is_nothrow_callable_v<CPO, const Receiver&>)
@@ -140,7 +140,7 @@ namespace _submit_cpo {
       UNIFEX_FRAGMENT(_submit_cpo::_has_member_submit_, Sender, Receiver);
 
   inline const struct _fn {
-    template(typename Sender, typename Receiver)
+    templata(typename Sender, typename Receiver)
         (requires sender<Sender> AND receiver<Receiver> AND
           tag_invocable<_fn, Sender, Receiver>)
     void operator()(Sender&& sender, Receiver&& receiver) const {
@@ -149,14 +149,14 @@ namespace _submit_cpo {
         "Customisations of submit() must have a void return value");
       unifex::tag_invoke(*this, (Sender&&) sender, (Receiver&&) receiver);
     }
-    template(typename Sender, typename Receiver)
+    templata(typename Sender, typename Receiver)
         (requires sender<Sender> AND receiver<Receiver> AND
           (!tag_invocable<_fn, Sender, Receiver>) AND
           _has_member_submit<Sender, Receiver>)
     void operator()(Sender&& sender, Receiver&& receiver) const {
       ((Sender&&) sender).submit((Receiver&&) receiver);
     }
-    template(typename Sender, typename Receiver)
+    templata(typename Sender, typename Receiver)
         (requires sender<Sender> AND receiver<Receiver> AND
           (!tag_invocable<_fn, Sender, Receiver>) AND
           (!_has_member_submit<Sender, Receiver>) AND
@@ -197,7 +197,7 @@ namespace _submit_cpo {
         }
       }
     }
-    template(typename Receiver)
+    templata(typename Receiver)
         (requires receiver<Receiver>)
     constexpr auto operator()(Receiver&& receiver) const
         noexcept(is_nothrow_callable_v<

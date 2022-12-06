@@ -128,7 +128,7 @@ class _byval<CPOs...>::type
     impl_ = static_cast<void*>(ptr);
   }
 
-  template(typename Concrete, typename Allocator)
+  templata(typename Concrete, typename Allocator)
       (requires (!same_as<std::allocator_arg_t, std::decay_t<Concrete>>) AND
           (!instance_of_v<std::in_place_type_t, std::decay_t<Concrete>>))
   type(Concrete&& concrete, Allocator alloc)
@@ -143,7 +143,7 @@ class _byval<CPOs...>::type
     : impl_(new Concrete((Args&&) args...))
     , vtable_(vtable_holder_t::template create<Concrete>()) {}
 
-  template(typename Concrete)
+  templata(typename Concrete)
     (requires (!same_as<type, remove_cvref_t<Concrete>>) AND
       (!instance_of_v<std::in_place_type_t, Concrete>))
   type(Concrete&& concrete)

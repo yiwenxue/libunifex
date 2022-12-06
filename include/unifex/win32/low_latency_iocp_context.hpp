@@ -398,7 +398,7 @@ namespace unifex::win32
     explicit schedule_sender(low_latency_iocp_context& context) noexcept
       : context_(context) {}
 
-    template(typename Receiver)(requires receiver_of<Receiver>) friend auto tag_invoke(
+    templata(typename Receiver)(requires receiver_of<Receiver>) friend auto tag_invoke(
         tag_t<connect>,
         const schedule_sender& s,
         Receiver&& r) noexcept(std::
@@ -563,7 +563,7 @@ namespace unifex::win32
       , skipNotificationsOnSuccess_(skipNotificationsOnSuccess)
       , buffer_((Buffer2 &&) buffer) {}
 
-    template(typename Receiver)(requires receiver_of<Receiver, std::size_t>) friend auto tag_invoke(
+    templata(typename Receiver)(requires receiver_of<Receiver, std::size_t>) friend auto tag_invoke(
         tag_t<unifex::connect>,
         type&& self,
         Receiver&& r) noexcept(std::is_nothrow_move_constructible_v<Buffer>&&
@@ -738,7 +738,7 @@ namespace unifex::win32
       , skipNotificationsOnSuccess_(skipNotificationsOnSuccess)
       , buffer_((Buffer2 &&) buffer) {}
 
-    template(typename Receiver)(requires receiver_of<Receiver, std::size_t>) friend auto tag_invoke(
+    templata(typename Receiver)(requires receiver_of<Receiver, std::size_t>) friend auto tag_invoke(
         tag_t<unifex::connect>,
         type&& self,
         Receiver&& r) noexcept(std::is_nothrow_move_constructible_v<Buffer>&&
@@ -770,7 +770,7 @@ namespace unifex::win32
       : context_(context)
       , fileHandle_(std::move(fileHandle)) {}
 
-    template(typename Buffer)(requires convertible_to<Buffer, span<std::byte>>) friend read_file_sender<
+    templata(typename Buffer)(requires convertible_to<Buffer, span<std::byte>>) friend read_file_sender<
         remove_cvref_t<
             Buffer>> tag_invoke(tag_t<async_read_some>, readable_byte_stream& stream, Buffer&& buffer) {
       return read_file_sender<remove_cvref_t<Buffer>>{
@@ -792,7 +792,7 @@ namespace unifex::win32
       : context_(context)
       , fileHandle_(std::move(fileHandle)) {}
 
-    template(typename Buffer)(requires convertible_to<Buffer, span<const std::byte>>) friend write_file_sender<
+    templata(typename Buffer)(requires convertible_to<Buffer, span<const std::byte>>) friend write_file_sender<
         remove_cvref_t<
             Buffer>> tag_invoke(tag_t<async_write_some>, writable_byte_stream& stream, Buffer&& buffer) {
       return write_file_sender<remove_cvref_t<Buffer>>{

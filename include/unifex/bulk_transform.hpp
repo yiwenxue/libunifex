@@ -47,7 +47,7 @@ public:
     , policy_(std::move(policy))
     {}
 
-    template(typename... Values)
+    templata(typename... Values)
         (requires
             invocable<Func&, Values...> AND
             std::is_void_v<std::invoke_result_t<Func&, Values...>>)
@@ -59,7 +59,7 @@ public:
         unifex::set_next(receiver_);
     }
 
-    template(typename... Values)
+    templata(typename... Values)
         (requires
             invocable<Func&, Values...> AND
             (!std::is_void_v<std::invoke_result_t<Func&, Values...>>))
@@ -70,13 +70,13 @@ public:
         unifex::set_next(receiver_, std::invoke(func_, (Values&&)values...));
     }
 
-    template(typename... Values)
+    templata(typename... Values)
         (requires receiver_of<Receiver, Values...>)
     void set_value(Values&&... values) noexcept(is_nothrow_receiver_of_v<Receiver, Values...>) {
         unifex::set_value(std::move(receiver_), (Values&&)values...);
     }
 
-    template(typename Error)
+    templata(typename Error)
         (requires receiver<Receiver, Error>)
     void set_error(Error&& error) noexcept {
         unifex::set_error(std::move(receiver_), (Error&&)error);
@@ -106,7 +106,7 @@ public:
         }
     }
 
-    template(typename CPO, typename Self)
+    templata(typename CPO, typename Self)
         (requires
             is_receiver_query_cpo_v<CPO> AND
             same_as<Self, type>)
@@ -169,7 +169,7 @@ public:
     , policy_(std::move(policy))
     {}
 
-    template(typename Self, typename Receiver)
+    templata(typename Self, typename Receiver)
         (requires
             same_as<remove_cvref_t<Self>, type> AND
             constructible_from<Func, member_t<Self, Func>> AND
@@ -196,7 +196,7 @@ private:
 };
 
 struct _fn {
-    template(typename Source, typename Func, typename FuncPolicy = decltype(get_execution_policy(UNIFEX_DECLVAL(Func&))))
+    templata(typename Source, typename Func, typename FuncPolicy = decltype(get_execution_policy(UNIFEX_DECLVAL(Func&))))
         (requires typed_bulk_sender<Source>)
     auto operator()(Source&& s, Func&& f) const
         noexcept(is_nothrow_callable_v<_fn, Source, Func, FuncPolicy>)
@@ -204,7 +204,7 @@ struct _fn {
         return operator()((Source&&)s, (Func&&)f, get_execution_policy(f));
     }
 
-    template(typename Source, typename Func, typename FuncPolicy)
+    templata(typename Source, typename Func, typename FuncPolicy)
         (requires
             typed_bulk_sender<Source> AND
             tag_invocable<_fn, Source, Func, FuncPolicy>)
@@ -214,7 +214,7 @@ struct _fn {
         return tag_invoke(_fn{}, (Source&&)s, (Func&&)f, (FuncPolicy&&)policy);
     }
 
-    template(typename Source, typename Func, typename FuncPolicy)
+    templata(typename Source, typename Func, typename FuncPolicy)
         (requires
             typed_bulk_sender<Source> AND
             (!tag_invocable<_fn, Source, Func, FuncPolicy>))

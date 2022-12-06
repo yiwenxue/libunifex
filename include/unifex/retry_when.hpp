@@ -96,7 +96,7 @@ public:
     }
   }
 
-  template(typename R = Receiver)
+  templata(typename R = Receiver)
     (requires receiver<R>)
   void set_done() && noexcept {
     UNIFEX_ASSERT(op_ != nullptr);
@@ -106,7 +106,7 @@ public:
     unifex::set_done((Receiver&&)op->receiver_);
   }
 
-  template(typename Error)
+  templata(typename Error)
     (requires receiver<Receiver, Error>)
   void set_error(Error error) && noexcept {
     UNIFEX_ASSERT(op_ != nullptr);
@@ -122,7 +122,7 @@ public:
 
 private:
 
-  template(typename CPO)
+  templata(typename CPO)
     (requires is_receiver_query_cpo_v<CPO> AND
         is_callable_v<CPO, const Receiver&>)
   friend auto tag_invoke(CPO cpo, const trigger_receiver& r)
@@ -165,7 +165,7 @@ public:
   : op_(std::exchange(other.op_, {}))
   {}
 
-  template(typename... Values)
+  templata(typename... Values)
     (requires receiver_of<Receiver, Values...>)
   void set_value(Values&&... values)
       noexcept(is_nothrow_receiver_of_v<Receiver, Values...>) {
@@ -178,7 +178,7 @@ public:
     unifex::set_done(std::move(op_->receiver_));
   }
 
-  template(typename Error)
+  templata(typename Error)
     (requires std::is_invocable_v<Func&, Error>)
   void set_error(Error error) noexcept {
     UNIFEX_ASSERT(op_ != nullptr);
@@ -216,7 +216,7 @@ public:
   }
 
 private:
-  template(typename CPO)
+  templata(typename CPO)
     (requires is_receiver_query_cpo_v<CPO> AND
         is_callable_v<CPO, const Receiver&>)
   friend auto tag_invoke(CPO cpo, const source_receiver& r)
@@ -358,7 +358,7 @@ public:
   // Ideally they should also check that func() invoked with each of the errors can be connected
   // with the corresponding trigger_receiver.
 
-  template(typename Self, typename Receiver)
+  templata(typename Self, typename Receiver)
       (requires same_as<remove_cvref_t<Self>, type> AND
           receiver<Receiver> AND
           constructible_from<Source, member_t<Self, Source>> AND
@@ -392,14 +392,14 @@ namespace _retry_when_cpo {
         meta_tag_invoke_result<_fn>,
         meta_quote2<_retry_when::sender>>::template apply<Source, Func>;
   public:
-    template(typename Source, typename Func)
+    templata(typename Source, typename Func)
       (requires tag_invocable<_fn, Source, Func>)
     auto operator()(Source&& source, Func&& func) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Source, Func>)
         -> _result_t<Source, Func> {
       return unifex::tag_invoke(_fn{}, (Source&&)source, (Func&&)func);
     }
-    template(typename Source, typename Func)
+    templata(typename Source, typename Func)
       (requires (!tag_invocable<_fn, Source, Func>) AND
           constructible_from<remove_cvref_t<Source>, Source> AND
           constructible_from<remove_cvref_t<Func>, Func>)

@@ -163,7 +163,7 @@ UNIFEX_CONCEPT        //
 
 namespace _start_cpo {
   inline const struct _fn {
-    template(typename Operation)
+    templata(typename Operation)
       (requires tag_invocable<_fn, Operation&>)
     auto operator()(Operation& op) const noexcept
         -> tag_invoke_result_t<_fn, Operation&> {
@@ -172,7 +172,7 @@ namespace _start_cpo {
           "start() customisation must be noexcept");
       return unifex::tag_invoke(_fn{}, op);
     }
-    template(typename Operation)
+    templata(typename Operation)
       (requires (!tag_invocable<_fn, Operation&>))
     auto operator()(Operation& op) const noexcept -> decltype(op.start()) {
       static_assert(
@@ -225,7 +225,7 @@ namespace _connect {
           ::template apply<Sender, Receiver>;
 
      public:
-      template(typename Sender, typename Receiver)
+      templata(typename Sender, typename Receiver)
         (requires receiver<Receiver> AND
             _with_tag_invoke<Sender, Receiver>)
       auto operator()(Sender&& s, Receiver&& r) const
@@ -233,7 +233,7 @@ namespace _connect {
           _result_t<Sender, Receiver> {
         return unifex::tag_invoke(_fn{}, (Sender &&) s, (Receiver &&) r);
       }
-      template(typename Sender, typename Receiver)
+      templata(typename Sender, typename Receiver)
         (requires receiver<Receiver> AND
             (!_with_tag_invoke<Sender, Receiver>) AND
             _with_member_connect<Sender, Receiver>)

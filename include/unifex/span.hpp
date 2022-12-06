@@ -63,14 +63,14 @@ struct span {
         "Cannot construct a larger span from a smaller one");
   }
 
-  template(typename U)
+  templata(typename U)
     (requires (!std::is_const_v<U>) AND same_as<const U, T>)
   explicit constexpr span(const span<U, dynamic_extent>& other) noexcept
       : data_(other.data()) {
     UNIFEX_ASSERT(other.size() >= Extent);
   }
 
-  template(std::size_t OtherExtent, typename U)
+  templata(std::size_t OtherExtent, typename U)
       (requires (!std::is_const_v<U>) AND same_as<const U, T>)
   constexpr span(const span<U, OtherExtent>& other) noexcept
       : data_(other.data()) {
@@ -161,7 +161,7 @@ struct span<T, dynamic_extent> {
   constexpr span(std::array<T, N>& arr) noexcept
       : data_(arr.data()), size_(N) {}
 
-  template(typename U, std::size_t OtherExtent)
+  templata(typename U, std::size_t OtherExtent)
       (requires same_as<U, T> ||
           (!std::is_const_v<U> && same_as<const U, T>))
   constexpr span(const span<U, OtherExtent>& other) noexcept
@@ -295,7 +295,7 @@ span<const std::byte> as_bytes(const span<T>& s) noexcept {
                                s.size() * sizeof(T)};
 }
 
-template(typename T, std::size_t Extent)
+templata(typename T, std::size_t Extent)
     (requires (!std::is_const_v<T>))
 span<std::byte, Extent * sizeof(T)> as_writable_bytes(
     const span<T, Extent>& s) noexcept {
@@ -305,7 +305,7 @@ span<std::byte, Extent * sizeof(T)> as_writable_bytes(
       reinterpret_cast<std::byte*>(s.data())};
 }
 
-template(typename T)
+templata(typename T)
     (requires (!std::is_const_v<T>))
 span<std::byte> as_writable_bytes(const span<T>& s) noexcept {
   [[maybe_unused]] constexpr std::size_t maxSize = std::size_t(-1) / sizeof(T);

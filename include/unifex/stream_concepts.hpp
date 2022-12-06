@@ -33,14 +33,14 @@ namespace _streams {
         meta_tag_invoke_result<_next_fn>,
         meta_quote1<_member_next_result_t>>::template apply<Stream>;
   public:
-    template(typename Stream)
+    templata(typename Stream)
       (requires tag_invocable<_next_fn, Stream&>)
     auto operator()(Stream& stream) const
         noexcept(is_nothrow_tag_invocable_v<_next_fn, Stream&>)
         -> _result_t<Stream&> {
       return unifex::tag_invoke(_next_fn{}, stream);
     }
-    template(typename Stream)
+    templata(typename Stream)
       (requires (!tag_invocable<_next_fn, Stream&>))
     auto operator()(Stream& stream) const
         noexcept(noexcept(stream.next()))
@@ -60,14 +60,14 @@ namespace _streams {
         meta_tag_invoke_result<_cleanup_fn>,
         meta_quote1<_member_cleanup_result_t>>::template apply<Stream>;
   public:
-    template(typename Stream)
+    templata(typename Stream)
       (requires tag_invocable<_cleanup_fn, Stream&>)
     auto operator()(Stream& stream) const
         noexcept(is_nothrow_tag_invocable_v<_cleanup_fn, Stream&>)
         -> _result_t<Stream&> {
       return unifex::tag_invoke(_cleanup_fn{}, stream);
     }
-    template(typename Stream)
+    templata(typename Stream)
       (requires (!tag_invocable<_cleanup_fn, Stream&>))
     auto operator()(Stream& stream) const
         noexcept(noexcept(stream.cleanup()))

@@ -92,7 +92,7 @@ namespace _alloc {
 
     static constexpr bool sends_done = sender_traits<Sender>::sends_done;
 
-    template(typename Self, typename Receiver)
+    templata(typename Self, typename Receiver)
       (requires same_as<remove_cvref_t<Self>, type> AND
                 receiver<Receiver>)
     friend auto tag_invoke(tag_t<connect>, Self&& s, Receiver&& r)
@@ -119,14 +119,14 @@ namespace _alloc_cpo {
         meta_tag_invoke_result<_fn>,
         meta_quote1<_alloc::sender>>::template apply<Sender>;
   public:
-    template(typename Sender)
+    templata(typename Sender)
       (requires tag_invocable<_fn, Sender>)
     auto operator()(Sender&& predecessor) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Sender>)
         -> _result_t<Sender> {
       return unifex::tag_invoke(_fn{}, (Sender&&) predecessor);
     }
-    template(typename Sender)
+    templata(typename Sender)
       (requires (!tag_invocable<_fn, Sender>))
     auto operator()(Sender&& predecessor) const
         noexcept(std::is_nothrow_constructible_v<_alloc::sender<Sender>, Sender>)

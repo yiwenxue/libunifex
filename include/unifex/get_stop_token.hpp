@@ -44,7 +44,7 @@ namespace _get_stop_token {
         }
       };
 
-      template (typename Tag, typename Promise)
+      templata(typename Tag, typename Promise)
         (requires same_as<Tag, tag_t<await_transform>>)
       friend auto tag_invoke(Tag, Promise& promise, _awaitable) noexcept {
         return _awaiter<callable_result_t<_fn, Promise&>>{_fn{}(promise)};
@@ -58,14 +58,14 @@ namespace _get_stop_token {
     }
 #endif
 
-    template (typename T)
+    templata(typename T)
       (requires (!tag_invocable<_fn, const T&>))
     constexpr auto operator()(const T&) const noexcept
         -> unstoppable_token {
       return unstoppable_token{};
     }
 
-    template (typename T)
+    templata(typename T)
       (requires tag_invocable<_fn, const T&>)
     constexpr auto operator()(const T& object) const noexcept
         -> tag_invoke_result_t<_fn, const T&> {

@@ -33,13 +33,13 @@ struct _op {
           std::is_nothrow_move_constructible_v<Context>)
       : rec_((Receiver&&) rec), fn_((Fn&&) fn), ctx_((Context&&) ctx) {}
 
-    template (typename... Ts)
+    templata(typename... Ts)
       (requires receiver_of<Receiver, Ts...>)
     void set_value(Ts&&... ts) noexcept(is_nothrow_receiver_of_v<Receiver, Ts...>) {
       unifex::set_value((Receiver&&) rec_, (Ts&&) ts...);
     }
 
-    template (typename Error)
+    templata(typename Error)
       (requires receiver<Receiver, Error>)
     void set_error(Error&& error) noexcept {
       unifex::set_error((Receiver&&) rec_, (Error&&) error);
@@ -49,11 +49,11 @@ struct _op {
       unifex::set_done((Receiver&&) rec_);
     }
 
-    template (class Ctx = Context)
+    templata(class Ctx = Context)
       (requires (!same_as<Ctx, detail::_empty<>>))
     Context const& context() const & noexcept { return ctx_; }
 
-    template (class Ctx = Context)
+    templata(class Ctx = Context)
       (requires (!same_as<Ctx, detail::_empty<>>))
     Context&& context() && noexcept { return (Context&&) ctx_; }
 
@@ -65,7 +65,7 @@ struct _op {
     }
 
     // Forward other receiver queries
-    template (typename CPO)
+    templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO> AND is_callable_v<CPO, const Receiver&>)
     friend auto tag_invoke(CPO cpo, const type& self)
         noexcept(is_nothrow_callable_v<CPO, const Receiver&>)
@@ -90,7 +90,7 @@ struct _snd_base {
 
     static constexpr bool sends_done = true;
 
-    template (typename Self, typename Receiver)
+    templata(typename Self, typename Receiver)
       (requires derived_from<remove_cvref_t<Self>, type> AND
         constructible_from<Fn, member_t<Self, Fn>> AND
         constructible_from<Context, member_t<Self, Context>>)
@@ -134,13 +134,13 @@ T void_cast(void* pv) noexcept {
 namespace _cpo {
 template <typename... ValueTypes>
 struct _fn {
-  template (typename Fn)
+  templata(typename Fn)
     (requires move_constructible<Fn>)
   _sender<Fn, ValueTypes...> operator()(Fn fn) const
       noexcept(std::is_nothrow_constructible_v<_sender<Fn, ValueTypes...>, Fn>) {
     return _sender<Fn, ValueTypes...>{{(Fn&&) fn}};
   }
-  template (typename Fn, typename Context)
+  templata(typename Fn, typename Context)
     (requires move_constructible<Fn> AND move_constructible<Context>)
   _sender_with_context<Fn, Context, ValueTypes...> operator()(Fn fn, Context ctx) const
       noexcept(std::is_nothrow_constructible_v<

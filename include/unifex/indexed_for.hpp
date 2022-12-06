@@ -96,7 +96,7 @@ struct _receiver<Policy, Range, Func, Receiver>::type {
     unifex::set_done((Receiver &&) receiver_);
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO>)
   friend auto tag_invoke(CPO cpo, const type& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)

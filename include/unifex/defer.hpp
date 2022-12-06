@@ -25,7 +25,7 @@ namespace unifex
 {
   namespace _defer {
     inline const struct _fn {
-      template (typename Callable)
+      templata(typename Callable)
         (requires callable<Callable> AND sender<callable_result_t<Callable>>)
       constexpr auto operator()(Callable&& callable) const {
         return let_value(just(), (Callable&&) callable);

@@ -27,7 +27,7 @@ namespace unifex {
 
 namespace _co_invoke {
 inline constexpr struct _fn {
-    template (typename Fn, typename... Args)
+    templata(typename Fn, typename... Args)
       (requires tag_invocable<
           _fn,
           type_identity<std::invoke_result_t<Fn, Args...>>,

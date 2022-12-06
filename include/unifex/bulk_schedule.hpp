@@ -126,7 +126,7 @@ UNIFEX_DIAGNOSTIC_POP
         unifex::set_value(std::move(receiver_));
     }
 
-    template(typename Error)
+    templata(typename Error)
         (requires receiver<Receiver, Error>)
     void set_error(Error&& e) noexcept {
         unifex::set_error(std::move(receiver_), (Error&&)e);
@@ -172,7 +172,7 @@ public:
     , count_(std::move(count))
     {}
 
-    template(typename Self, typename BulkReceiver)
+    templata(typename Self, typename BulkReceiver)
         (requires
             same_as<remove_cvref_t<Self>, type> AND
             receiver_of<BulkReceiver> AND
@@ -191,7 +191,7 @@ private:
 };
 
 struct _fn {
-    template(typename Scheduler, typename Integral)
+    templata(typename Scheduler, typename Integral)
         (requires
             tag_invocable<_fn, Scheduler, Integral>)
     auto operator()(Scheduler&& s, Integral n) const
@@ -200,7 +200,7 @@ struct _fn {
         return tag_invoke(_fn{}, (Scheduler&&)s, std::move(n));
     }
 
-    template(typename Scheduler, typename Integral)
+    templata(typename Scheduler, typename Integral)
         (requires
             scheduler<Scheduler> AND
             (!tag_invocable<_fn, Scheduler, Integral>))

@@ -102,7 +102,7 @@ struct _receiver<Predecessor, Receiver, Func, FuncPolicy>::type {
       unifex::set_done((OutputReceiver &&) output_receiver_);
     }
 
-    template(typename CPO, typename R)
+    templata(typename CPO, typename R)
         (requires is_receiver_query_cpo_v<CPO> AND same_as<R, unpack_receiver<OutputReceiver>>)
     friend auto tag_invoke(CPO cpo, const R& r) noexcept(
         is_nothrow_callable_v<CPO, const OutputReceiver&>)
@@ -259,7 +259,7 @@ struct _receiver<Predecessor, Receiver, Func, FuncPolicy>::type {
     unifex::set_done((Receiver &&) receiver_);
   }
 
-  template(typename CPO, typename R)
+  templata(typename CPO, typename R)
       (requires is_receiver_query_cpo_v<CPO> AND same_as<R, type>)
   friend auto tag_invoke(CPO cpo, const R& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -385,7 +385,7 @@ struct _sender<Predecessor, Func, FuncPolicy>::type {
     return blocking(sender.pred_);
   }
 
-  template(typename Sender, typename Receiver)
+  templata(typename Sender, typename Receiver)
     (requires same_as<remove_cvref_t<Sender>, type> AND receiver<Receiver>)
   friend auto tag_invoke(tag_t<unifex::connect>, Sender&& s, Receiver&& r)
     noexcept(
@@ -404,14 +404,14 @@ struct _sender<Predecessor, Func, FuncPolicy>::type {
 namespace _find_if_cpo {
   inline const struct _fn {
   public:
-    template(typename Sender, typename Func, typename FuncPolicy)
+    templata(typename Sender, typename Func, typename FuncPolicy)
       (requires tag_invocable<_fn, Sender, Func, FuncPolicy>)
     auto operator()(Sender&& predecessor, Func&& func, FuncPolicy policy) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Sender, Func, FuncPolicy>)
         -> tag_invoke_result_t<_fn, Sender, Func, FuncPolicy> {
       return unifex::tag_invoke(_fn{}, (Sender&&)predecessor, (Func&&)func, (FuncPolicy&&)policy);
     }
-    template(typename Sender, typename Func, typename FuncPolicy)
+    templata(typename Sender, typename Func, typename FuncPolicy)
       (requires (!tag_invocable<_fn, Sender, Func, FuncPolicy>))
     auto operator()(Sender&& predecessor, Func&& func, FuncPolicy policy) const
         noexcept(

@@ -74,7 +74,7 @@ namespace _static_thread_pool {
           return operation<Receiver>{pool_, (Receiver &&) r};
         }
 
-        template(typename Receiver)
+        templata(typename Receiver)
           (requires receiver_of<Receiver>)
         friend operation<Receiver>
         tag_invoke(tag_t<connect>, schedule_sender s, Receiver&& r) {

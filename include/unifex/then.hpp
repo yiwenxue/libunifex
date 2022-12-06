@@ -102,7 +102,7 @@ struct _receiver<Receiver, Func>::type {
     unifex::set_done((Receiver &&) receiver_);
   }
 
-  template(typename CPO, typename R)
+  templata(typename CPO, typename R)
       (requires is_receiver_query_cpo_v<CPO> AND same_as<R, type>)
   friend auto tag_invoke(CPO cpo, const R& r) noexcept(
       is_nothrow_callable_v<CPO, const Receiver&>)
@@ -163,7 +163,7 @@ public:
     return blocking(sender.pred_);
   }
 
-  template(typename Sender, typename Receiver)
+  templata(typename Sender, typename Receiver)
     (requires same_as<remove_cvref_t<Sender>, type> AND receiver<Receiver> AND
         sender_to<member_t<Sender, Predecessor>, receiver_t<remove_cvref_t<Receiver>>>)
   friend auto tag_invoke(tag_t<unifex::connect>, Sender&& s, Receiver&& r)
@@ -190,14 +190,14 @@ namespace _cpo {
         meta_tag_invoke_result<_fn>,
         meta_quote2<_then::sender>>::template apply<Sender, Func>;
   public:
-    template(typename Sender, typename Func)
+    templata(typename Sender, typename Func)
       (requires tag_invocable<_fn, Sender, Func>)
     auto operator()(Sender&& predecessor, Func&& func) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Sender, Func>)
         -> _result_t<Sender, Func> {
       return unifex::tag_invoke(_fn{}, (Sender&&)predecessor, (Func&&)func);
     }
-    template(typename Sender, typename Func)
+    templata(typename Sender, typename Func)
       (requires (!tag_invocable<_fn, Sender, Func>))
     auto operator()(Sender&& predecessor, Func&& func) const
         noexcept(std::is_nothrow_constructible_v<

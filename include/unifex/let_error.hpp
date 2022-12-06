@@ -81,7 +81,7 @@ public:
   // Flipping the order of `deactivate_*` and `set_value` is UB since by the
   // time `set_value()` returns `op_` might as well be already destroyed,
   // without proper deactivation of `op_->sourceOp_`.
-  template(typename... Values)
+  templata(typename... Values)
     (requires receiver_of<Receiver, Values...>)
   void set_value(Values... values) noexcept(
       is_nothrow_receiver_of_v<Receiver, Values...>) {
@@ -103,7 +103,7 @@ public:
 #if defined(_MSC_VER) && !defined(__clang__) // cl.exe
   template <typename ErrorValue>
 #else
-  template (typename ErrorValue)
+  templata(typename ErrorValue)
     (requires callable<Func, ErrorValue> AND
       // For some reason, MSVC chokes on this when compiling with real concepts
       sender_to<
@@ -142,7 +142,7 @@ public:
   }
 
 private:
-  template(typename CPO, typename Self)
+  templata(typename CPO, typename Self)
     (requires is_receiver_query_cpo_v<CPO> AND
         same_as<remove_cvref_t<Self>, type> AND
         is_callable_v<CPO, const Receiver&>)
@@ -178,7 +178,7 @@ public:
   explicit type(operation* op) noexcept : op_(op) {}
   type(type&& other) noexcept : op_(std::exchange(other.op_, {})) {}
 
-  template(typename... Values)
+  templata(typename... Values)
     (requires receiver_of<Receiver, Values...>)
   // Taking by value here to force a move/copy on the offchance the value
   // objects live in the operation state, in which case destroying the
@@ -202,7 +202,7 @@ public:
     unifex::set_done(std::move(op->receiver_));
   }
 
-  template(typename ErrorValue)
+  templata(typename ErrorValue)
     (requires receiver<Receiver, ErrorValue>)
   // Taking by value here to force a copy on the offchance the error
   // object lives in the operation state, in which
@@ -223,7 +223,7 @@ private:
     op->error_.template destruct<Error>();
   }
 
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO> AND
           is_callable_v<CPO, const Receiver&>)
   friend auto tag_invoke(CPO cpo, const type& r)
@@ -378,7 +378,7 @@ public:
     , func_((Func2&&)func)
   {}
 
-  template(typename Sender, typename Receiver)
+  templata(typename Sender, typename Receiver)
       (requires receiver<Receiver> AND
           same_as<remove_cvref_t<Sender>, type> AND
           constructible_from<Func, member_t<Sender, Func>> AND
@@ -407,7 +407,7 @@ private:
 namespace _cpo
 {
 struct _fn {
-  template(typename Source, typename Func)
+  templata(typename Source, typename Func)
     (requires tag_invocable<_fn, Source, Func> AND
         sender<Source>)
   auto operator()(Source&& source, Func&& func) const
@@ -416,7 +416,7 @@ struct _fn {
     return tag_invoke(*this, (Source&&)source, (Func&&)func);
   }
 
-  template(typename Source, typename Func)
+  templata(typename Source, typename Func)
     (requires (!tag_invocable<_fn, Source, Func>) AND
         constructible_from<remove_cvref_t<Source>, Source> AND
         constructible_from<remove_cvref_t<Func>, Func>)

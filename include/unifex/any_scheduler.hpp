@@ -34,13 +34,13 @@ template <typename Ret>
 struct _copy_as_fn {
   using type_erased_signature_t = Ret(const this_&);
 
-  template (typename T)
+  templata(typename T)
     (requires tag_invocable<_copy_as_fn, const T&>)
   Ret operator()(const T& t) const {
     return tag_invoke(*this, t);
   }
 
-  template (typename T)
+  templata(typename T)
     (requires (!tag_invocable<_copy_as_fn, const T&>) AND copy_constructible<T>)
   Ret operator()(const T& t) const {
     return Ret{t};
@@ -63,14 +63,14 @@ inline constexpr struct _get_type_index_fn {
 } _get_type_index{};
 
 inline constexpr struct _equal_to_fn {
-  template (typename T, typename U)
+  templata(typename T, typename U)
     (requires tag_invocable<_equal_to_fn, const T&, const U&>)
   bool operator()(const T& t, const U& u) const noexcept {
     static_assert(is_nothrow_tag_invocable_v<_equal_to_fn, const T&, const U&>);
     return tag_invoke(*this, t, u);
   }
 
-  template (typename T, typename U)
+  templata(typename T, typename U)
     (requires (!tag_invocable<_equal_to_fn, const T&, const U&>) AND
       equality_comparable<T>)
   bool operator()(const T& t, const U& u) const noexcept {
@@ -109,13 +109,13 @@ struct _schedule_and_connect_fn {
       return _any::_connect<type_list<CPOs...>>(schedule(sched), (_rec_ref_t&&) rec);
     }
 #else
-    template (typename Scheduler)
+    templata(typename Scheduler)
       (requires tag_invocable<type, const Scheduler&, _rec_ref_t>)
     _any::_operation_state operator()(const Scheduler& sched, _rec_ref_t rec) const {
       return tag_invoke(*this, sched, (_rec_ref_t&&) rec);
     }
 
-    template (typename Scheduler)
+    templata(typename Scheduler)
       (requires (!tag_invocable<type, const Scheduler&, _rec_ref_t>) AND
         scheduler<Scheduler>)
     _any::_operation_state operator()(const Scheduler& sched, _rec_ref_t rec) const {
@@ -142,7 +142,7 @@ using any_scheduler_impl =
 
 template <typename... CPOs>
 struct _with<CPOs...>::any_scheduler {
-  template (typename Scheduler)
+  templata(typename Scheduler)
     (requires (!same_as<Scheduler, any_scheduler>) AND scheduler<Scheduler>)
   /* implicit */ any_scheduler(Scheduler sched)
     : impl_((Scheduler&&) sched) {}
@@ -168,7 +168,7 @@ struct _with<CPOs...>::any_scheduler {
 
     _sender(_sender&&) noexcept = default;
 
-    template (typename Receiver)
+    templata(typename Receiver)
       (requires receiver_of<Receiver> AND
         (invocable<CPOs, const Receiver&> &&...))
     any_operation_state_for<Receiver> connect(Receiver rec) && {
@@ -215,7 +215,7 @@ using any_scheduler_ref_impl = any_ref_t<_schedule_and_connect<ReceiverCPOs...>>
 
 template <typename... CPOs>
 struct _with<CPOs...>::any_scheduler_ref {
-  template (typename Scheduler)
+  templata(typename Scheduler)
     (requires (!same_as<const Scheduler, const any_scheduler_ref>) AND scheduler<Scheduler>)
   /* implicit */ any_scheduler_ref(Scheduler& sched) noexcept
     : impl_(sched) {}
@@ -231,7 +231,7 @@ struct _with<CPOs...>::any_scheduler_ref {
 
     _sender(_sender&&) noexcept = default;
 
-    template (typename Receiver)
+    templata(typename Receiver)
       (requires receiver_of<Receiver> AND
         (invocable<CPOs, const Receiver&> &&...))
     any_operation_state_for<Receiver> connect(Receiver rec) && {

@@ -129,7 +129,7 @@ public:
     UNIFEX_ASSERT(op_count(state) == 0);
   }
 
-  template (typename Sender)
+  templata(typename Sender)
     (requires sender_to<Sender, receiver<Sender>>)
   void spawn(Sender&& sender) {
     // this could throw; if it does, there's nothing to clean up
@@ -161,7 +161,7 @@ public:
     }
   }
 
-  template (typename Sender, typename Scheduler)
+  templata(typename Sender, typename Scheduler)
     (requires scheduler<Scheduler> AND
      sender_to<
         _on_result_t<Scheduler, Sender>,
@@ -170,7 +170,7 @@ public:
     spawn(on((Scheduler&&) scheduler, (Sender&&) sender));
   }
 
-  template (typename Scheduler, typename Fun)
+  templata(typename Scheduler, typename Fun)
     (requires scheduler<Scheduler> AND callable<Fun>)
   void spawn_call_on(Scheduler&& scheduler, Fun&& fun) {
     static_assert(

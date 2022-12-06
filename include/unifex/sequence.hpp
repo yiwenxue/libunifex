@@ -71,7 +71,7 @@ namespace unifex
         : op_(std::exchange(other.op_, nullptr)) {}
 
     private:
-      template(typename CPO, typename R, typename... Args)
+      templata(typename CPO, typename R, typename... Args)
           (requires
               is_receiver_cpo_v<CPO> AND
               same_as<R, successor_receiver> AND
@@ -88,7 +88,7 @@ namespace unifex
             r.get_receiver_rvalue(), static_cast<Args&&>(args)...);
       }
 
-      template(typename CPO, typename R)
+      templata(typename CPO, typename R)
           (requires is_receiver_query_cpo_v<CPO> AND
             same_as<R, successor_receiver> AND
             is_callable_v<CPO, const Receiver&>)
@@ -175,7 +175,7 @@ namespace unifex
         }
       }
 
-      template(typename Error)
+      templata(typename Error)
           (requires receiver<Receiver, Error>)
       void set_error(Error&& error) && noexcept {
         unifex::set_error(
@@ -188,7 +188,7 @@ namespace unifex
       }
 
     private:
-      template(typename CPO, typename R)
+      templata(typename CPO, typename R)
           (requires is_receiver_query_cpo_v<CPO> AND
             same_as<R, predecessor_receiver> AND
             is_callable_v<CPO, const Receiver&>)
@@ -312,7 +312,7 @@ namespace unifex
         sender_traits<Predecessor>::sends_done ||
         sender_traits<Successor>::sends_done;
 
-      template(typename Predecessor2, typename Successor2)
+      templata(typename Predecessor2, typename Successor2)
           (requires constructible_from<Predecessor, Predecessor2> AND
               constructible_from<Successor, Successor2>)
       explicit type(Predecessor2&& predecessor, Successor2&& successor)
@@ -342,7 +342,7 @@ namespace unifex
         }
       }
 
-      template(typename Receiver, typename Sender)
+      templata(typename Receiver, typename Sender)
           (requires same_as<remove_cvref_t<Sender>, type> AND
             constructible_from<Successor, member_t<Sender, Successor>> AND
             sender_to<
@@ -375,7 +375,7 @@ namespace unifex
         return static_cast<First&&>(first);
       }
 
-      template(typename First, typename Second)
+      templata(typename First, typename Second)
         (requires sender<First> AND sender<Second> AND //
           tag_invocable<_fn, First, Second>)
       auto operator()(First&& first, Second&& second) const
@@ -385,7 +385,7 @@ namespace unifex
             _fn{}, static_cast<First&&>(first), static_cast<Second&&>(second));
       }
 
-      template(typename First, typename Second)
+      templata(typename First, typename Second)
         (requires sender<First> AND sender<Second> AND //
           (!tag_invocable<_fn, First, Second>))
       auto operator()(First&& first, Second&& second) const
@@ -399,7 +399,7 @@ namespace unifex
             static_cast<Second&&>(second)};
       }
 
-      template(typename First, typename Second, typename Third, typename... Rest)
+      templata(typename First, typename Second, typename Third, typename... Rest)
         (requires sender<First> AND sender<Second> AND sender<Third> AND
           (sender<Rest> &&...) AND tag_invocable<_fn, First, Second, Third, Rest...>)
       auto operator()(First&& first, Second&& second, Third&& third, Rest&&... rest) const
@@ -413,7 +413,7 @@ namespace unifex
             static_cast<Rest&&>(rest)...);
       }
 
-      template(typename First, typename Second, typename Third, typename... Rest)
+      templata(typename First, typename Second, typename Third, typename... Rest)
         (requires sender<First> AND sender<Second> AND sender<Third> AND
           (sender<Rest> &&...) AND (!tag_invocable<_fn, First, Second, Third, Rest...>))
       auto operator()(First&& first, Second&& second, Third&& third, Rest&&... rest) const

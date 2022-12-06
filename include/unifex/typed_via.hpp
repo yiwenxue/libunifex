@@ -27,7 +27,7 @@
 namespace unifex {
 namespace _typed_via {
   struct _fn {
-    template(typename Source, typename Scheduler)
+    templata(typename Source, typename Scheduler)
         (requires tag_invocable<_fn, Source, Scheduler>)
     auto operator()(Source&& source, Scheduler&& scheduler) const
         noexcept(is_nothrow_tag_invocable_v<_fn, Source, Scheduler>)
@@ -38,7 +38,7 @@ namespace _typed_via {
           static_cast<Scheduler&&>(scheduler));
     }
 
-    template(typename Source, typename Scheduler)
+    templata(typename Source, typename Scheduler)
         (requires (!tag_invocable<_fn, Source, Scheduler>))
     auto operator()(Source&& source, Scheduler&& scheduler) const
         noexcept(noexcept(finally(
@@ -51,7 +51,7 @@ namespace _typed_via {
           static_cast<Source&&>(source),
           schedule(static_cast<Scheduler&&>(scheduler)));
     }
-    template(typename Scheduler)
+    templata(typename Scheduler)
         (requires scheduler<Scheduler>)
     constexpr auto operator()(Scheduler&& scheduler) const
         noexcept(is_nothrow_callable_v<

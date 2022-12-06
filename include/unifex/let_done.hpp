@@ -76,7 +76,7 @@ public:
   : op_(std::exchange(other.op_, {}))
   {}
  
-  template(typename... Values)
+  templata(typename... Values)
     (requires receiver_of<Receiver, Values...>)
   void set_value(Values&&... values) noexcept(
       is_nothrow_receiver_of_v<Receiver, Values...>) {
@@ -112,7 +112,7 @@ public:
     }
   }
 
-  template(typename Error)
+  templata(typename Error)
       (requires receiver<Receiver, Error>)
   void set_error(Error&& error) noexcept {
     UNIFEX_ASSERT(op_ != nullptr);
@@ -120,7 +120,7 @@ public:
   }
 
 private:
-  template(typename CPO, typename Self)
+  templata(typename CPO, typename Self)
     (requires is_receiver_query_cpo_v<CPO> AND
         same_as<remove_cvref_t<Self>, type> AND
         is_callable_v<CPO, const Receiver&>)
@@ -160,7 +160,7 @@ public:
   : op_(std::exchange(other.op_, {}))
   {}
  
-  template(typename... Values)
+  templata(typename... Values)
     (requires receiver_of<Receiver, Values...>)
   void set_value(Values&&... values) noexcept(
       is_nothrow_receiver_of_v<Receiver, Values...>) {
@@ -173,7 +173,7 @@ public:
     unifex::set_done(std::move(op_->receiver_));
   }
 
-  template(typename Error)
+  templata(typename Error)
     (requires receiver<Receiver, Error>)
   void set_error(Error&& error) noexcept {
     UNIFEX_ASSERT(op_ != nullptr);
@@ -181,7 +181,7 @@ public:
   }
 
 private:
-  template(typename CPO)
+  templata(typename CPO)
       (requires is_receiver_query_cpo_v<CPO> AND
           is_callable_v<CPO, const Receiver&>)
   friend auto tag_invoke(CPO cpo, const type& r)
@@ -291,7 +291,7 @@ public:
     , done_((Done2&&)done)
   {}
 
-  template(
+  templata(
     typename Sender,
     typename Receiver,
     typename SourceReceiver = receiver_type<member_t<Sender, Source>, Done, Receiver>,
@@ -322,7 +322,7 @@ private:
 namespace _cpo
 {
 struct _fn {
-  template(typename Source, typename Done)
+  templata(typename Source, typename Done)
     (requires tag_invocable<_fn, Source, Done> AND
         sender<Source> AND
         callable<remove_cvref_t<Done>> AND
@@ -333,7 +333,7 @@ struct _fn {
     return tag_invoke(*this, (Source&&)source, (Done&&)done);
   }
 
-  template(typename Source, typename Done)
+  templata(typename Source, typename Done)
     (requires (!tag_invocable<_fn, Source, Done>) AND
         sender<Source> AND
         constructible_from<remove_cvref_t<Source>, Source> AND
@@ -349,7 +349,7 @@ struct _fn {
     return _sender<remove_cvref_t<Source>, remove_cvref_t<Done>>{
         (Source&&)source, (Done&&)done};
   }
-  template(typename Done)
+  templata(typename Done)
       (requires callable<remove_cvref_t<Done>> AND
         sender<callable_result_t<remove_cvref_t<Done>>>)
   constexpr auto operator()(Done&& done) const
